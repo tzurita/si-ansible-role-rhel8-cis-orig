@@ -1,9 +1,6 @@
 RHEL 8 CIS STIG
 ================
 
-[![Build Status](https://travis-ci.org/MindPointGroup/RHEL8-CIS.svg?branch=devel)](https://travis-ci.org/MindPointGroup/RHEL8-CIS)
-[![Ansible Role](https://img.shields.io/ansible/role/16089.svg)](https://galaxy.ansible.com/MindPointGroup/RHEL8-CIS/)
-
 Configure RHEL i machine to be [CIS](https://www.cisecurity.org/cis-benchmarks/) compliant. Level 1 and 2 findings will be corrected by default.
 
 This role **will make changes to the system** that could break things. This is not an auditing tool but rather a remediation tool to be used after an audit has been conducted.
@@ -20,9 +17,8 @@ With this in the file requirements.yml:
 - src: https://github.com/MindPointGroup/RHEL8-CIS.git
 ```
 
-Based on [CIS RedHat Enterprise Linux 7 Benchmark v2.1.1 - 01-31-2017 ](https://community.cisecurity.org/collab/public/index.php).
+Based on [CIS RedHat Enterprise Linux 8 Benchmark v1.0.0 - 06-31-2019 ](https://community.cisecurity.org/collab/public/index.php).
 
-This repo originated from work done by [Sam Doran](https://github.com/samdoran/ansible-role-stig)
 
 Requirements
 ------------
