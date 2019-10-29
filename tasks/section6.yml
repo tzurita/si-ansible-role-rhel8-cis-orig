@@ -1,415 +1,360 @@
-- name: "NOTSCORED | 6.1.1 | PATCH | Audit system file permissions"
+- name: "NOTSCORED | 6.1.1 | Audit system file permissions"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_1_1
+    - rhel8cis_rule_6_1_1
   tags:
-      - level2
-      - patch
-      - rule_6.1.1
-      - notimplemented
+    - level2
+    - rule_6.1.1
+    - notimplemented
 
-- name: "SCORED | 6.1.2 | PATCH | Ensure permissions on /etc/passwd are configured"
+- name: "SCORED | 6.1.2 | Ensure permissions on /etc/passwd are configured"
   file:
-      dest: /etc/passwd
-      owner: root
-      group: root
-      mode: 0644
+    dest: /etc/passwd
+    owner: root
+    group: root
+    mode: 0644
   when:
-      - rhel8cis_rule_6_1_2
+    - rhel8cis_rule_6_1_2
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.2
+    - level1
+    - rule_6.1.2
 
-- name: "SCORED | 6.1.3 | PATCH | Ensure permissions on /etc/shadow are configured"
+- name: "SCORED | 6.1.3 | Ensure permissions on /etc/shadow are configured"
   file:
-      dest: /etc/shadow
-      owner: root
-      group: root
-      mode: 0000
+    dest: /etc/shadow
+    owner: root
+    group: root
+    mode: 0000
   when:
-      - rhel8cis_rule_6_1_3
+    - rhel8cis_rule_6_1_3
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.3
+    - level1
+    - rule_6.1.3
 
-- name: "SCORED | 6.1.4 | PATCH | Ensure permissions on /etc/group are configured"
+- name: "SCORED | 6.1.4 | Ensure permissions on /etc/group are configured"
   file:
-      dest: /etc/group
-      owner: root
-      group: root
-      mode: 0644
+    dest: /etc/group
+    owner: root
+    group: root
+    mode: 0644
   when:
-      - rhel8cis_rule_6_1_4
+    - rhel8cis_rule_6_1_4
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.4
+    - level1
+    - rule_6.1.4
 
-- name: "SCORED | 6.1.5 | PATCH | Ensure permissions on /etc/gshadow are configured"
+- name: "SCORED | 6.1.5 | Ensure permissions on /etc/gshadow are configured"
   file:
-      dest: /etc/gshadow
-      owner: root
-      group: root
-      mode: 0000
+    dest: /etc/gshadow
+    owner: root
+    group: root
+    mode: 0000
   when:
-      - rhel8cis_rule_6_1_5
+    - rhel8cis_rule_6_1_5
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.5
+    - level1
+    - rule_6.1.5
 
-- name: "SCORED | 6.1.6 | PATCH | Ensure permissions on /etc/passwd- are configured"
+- name: "SCORED | 6.1.6 | Ensure permissions on /etc/passwd- are configured"
   file:
-      dest: /etc/passwd-
-      owner: root
-      group: root
-      mode: 0600
+    dest: /etc/passwd-
+    owner: root
+    group: root
+    mode: 0600
   when:
-      - rhel8cis_rule_6_1_6
+    - rhel8cis_rule_6_1_6
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.6
+    - level1
+    - rule_6.1.6
 
-- name: "SCORED | 6.1.7 | PATCH | Ensure permissions on /etc/shadow- are configured"
+- name: "SCORED | 6.1.7 | Ensure permissions on /etc/shadow- are configured"
   file:
-      dest: /etc/shadow-
-      owner: root
-      group: root
-      mode: 0000
+    dest: /etc/shadow-
+    owner: root
+    group: root
+    mode: 0000
   when:
-      - rhel8cis_rule_6_1_7
+    - rhel8cis_rule_6_1_7
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.7
+    - level1
+    - rule_6.1.7
 
-- name: "SCORED | 6.1.8 | PATCH | Ensure permissions on /etc/group- are configured"
+- name: "SCORED | 6.1.8 | Ensure permissions on /etc/group- are configured"
   file:
-      dest: /etc/group-
-      owner: root
-      group: root
-      mode: 0600
+    dest: /etc/group-
+    owner: root
+    group: root
+    mode: 0600
   when:
-      - rhel8cis_rule_6_1_8
+    - rhel8cis_rule_6_1_8
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.8
+    - level1
+    - rule_6.1.8
 
-- name: "SCORED | 6.1.9 | PATCH | Ensure permissions on /etc/gshadow- are configured"
+- name: "SCORED | 6.1.9 | Ensure permissions on /etc/gshadow- are configured"
   file:
-      dest: /etc/gshadow-
-      owner: root
-      group: root
-      mode: 0600
+    dest: /etc/gshadow-
+    owner: root
+    group: root
+    mode: 0000
   when:
-      - rhel8cis_rule_6_1_9
+    - rhel8cis_rule_6_1_9
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.9
+    - level1
+    - rule_6.1.9
 
-- name: "SCORED | 6.1.10 | PATCH | Ensure no world writable files exist"
+- name: "SCORED | 6.1.10 | Ensure no world writable files exist"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_1_10
+    - rhel8cis_rule_6_1_10
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.10
-      - notimplemented
+    - level1
+    - rule_6.1.10
+    - notimplemented
 
-- name: "SCORED | 6.1.11 | PATCH | Ensure no unowned files or directories exist"
+- name: "SCORED | 6.1.11 | Ensure no unowned files or directories exist"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_1_11
+    - rhel8cis_rule_6_1_11
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.11
-      - notimplemented
+    - level1
+    - rule_6.1.11
+    - notimplemented
 
-- name: "SCORED | 6.1.12 | PATCH | Ensure no ungrouped files or directories exist"
+- name: "SCORED | 6.1.12 | Ensure no ungrouped files or directories exist"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_1_12
+    - rhel8cis_rule_6_1_12
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.12
-      - notimplemented
+    - level1
+    - rule_6.1.12
+    - notimplemented
 
-- name: "NOTSCORED | 6.1.13 | PATCH | Audit SUID executables"
+- name: "NOTSCORED | 6.1.13 | Audit SUID executables"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_1_13
+    - rhel8cis_rule_6_1_13
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.13
-      - notimplemented
+    - level1
+    - rule_6.1.13
+    - notimplemented
 
-- name: "NOTSCORED | 6.1.14 | PATCH | Audit SGID executables"
+- name: "NOTSCORED | 6.1.14 | Audit SGID executables"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_1_14
+    - rhel8cis_rule_6_1_14
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.1.14
-      - notimplemented
+    - level1
+    - rule_6.1.14
+    - notimplemented
 
-- name: "SCORED | 6.2.1 | PATCH | Ensure password fields are not empty"
+- name: "SCORED | 6.2.1 | Ensure password fields are not empty"
   command: passwd -l {{ item }}
   changed_when: no
   failed_when: no
   with_items: "{{ empty_password_accounts.stdout_lines }}"
   when:
-      - empty_password_accounts.rc
-      - rhel8cis_rule_6_2_1
+    - empty_password_accounts.rc
+    - rhel8cis_rule_6_2_1
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.1
+    - level1
+    - rule_6.2.1
 
-- name: "SCORED | 6.2.2 | PATCH | Ensure no legacy '+' entries exist in /etc/passwd"
+- name: "SCORED | 6.2.2 | Ensure no legacy '+' entries exist in /etc/passwd"
   command: sed -i '/^+/ d' /etc/passwd
   changed_when: no
   failed_when: no
   when:
-      - rhel8cis_rule_6_2_2
+    - rhel8cis_rule_6_2_2
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.2
+    - level1
+    - rule_6.2.2
 
-- name: "SCORED | 6.2.3 | PATCH | Ensure no legacy '+' entries exist in /etc/shadow"
+- name: "SCORED | 6.2.3 | Ensure root PATH Integrity"
+  command: /bin/true
+  changed_when: no
+  when:
+    - rhel8cis_rule_6_2_3
+  tags:
+    - level1
+    - rule_6.2.3
+    - notimplemented
+
+- name: "SCORED | 6.2.4 | Ensure no legacy '+' entries exist in /etc/shadow"
   command: sed -i '/^+/ d' /etc/shadow
   changed_when: no
   failed_when: no
   when:
-      - rhel8cis_rule_6_2_3
+    - rhel8cis_rule_6_2_4
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.3
+    - level1
+    - rule_6.2.4
 
-- name: "SCORED | 6.2.4 | PATCH | Ensure no legacy '+' entries exist in /etc/group"
+- name: "SCORED | 6.2.5 | Ensure no legacy '+' entries exist in /etc/group"
   command: sed -i '/^+/ d' /etc/group
   changed_when: no
   failed_when: no
   when:
-      - rhel8cis_rule_6_2_4
+    - rhel8cis_rule_6_2_5
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.4
+    - level1
+    - rule_6.2.5
 
-- name: "SCORED | 6.2.5 | PATCH | Ensure root is the only UID 0 account"
+- name: "SCORED | 6.2.6 | Ensure root is the only UID 0 account"
   command: passwd -l {{ item }}
   changed_when: no
   failed_when: no
   with_items: "{{ uid_zero_accounts_except_root.stdout_lines }}"
   when:
-      - uid_zero_accounts_except_root.rc
-      - rhel8cis_rule_6_2_5
+    - uid_zero_accounts_except_root.rc
+    - rhel8cis_rule_6_2_6
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.5
+    - level1
+    - rule_6.2.6
 
-- name: "SCORED | 6.2.6 | PATCH | Ensure root PATH Integrity"
+- name: "SCORED | 6.2.7 | Ensure users' home directories permissions are 750 or more restrictive"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_2_6
+    - rhel8cis_rule_6_2_7
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.6
-      - notimplemented
+    - level1
+    - rule_6.2.7
+    - notimplemented
 
-- name: "SCORED | 6.2.7 | PATCH | Ensure all users' home directories exist"
+- name: "SCORED | 6.2.8 | Ensure users own their home directories"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_2_7
+    - rhel8cis_rule_6_2_8
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.7
-      - notimplemented
+    - level1
+    - rule_6.2.8
+    - notimplemented
 
-- name: "SCORED | 6.2.8 | PATCH | Ensure users' home directories permissions are 750 or more restrictive"
+- name: "SCORED | 6.2.9 | Ensure users' dot files are not group or world writable"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_2_8
+    - rhel8cis_rule_6_2_9
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.8
-      - notimplemented
+    - level1
+    - rule_6.2.9
+    - notimplemented
 
-- name: "SCORED | 6.2.9 | PATCH | Ensure users own their home directories"
-  command: /bin/true
-  changed_when: no
-  when:
-      - rhel8cis_rule_6_2_9
-  tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.9
-      - notimplemented
-
-- name: "SCORED | 6.2.10 | PATCH | Ensure users' dot files are not group or world writable"
-  command: /bin/true
-  changed_when: no
-  when:
-      - rhel8cis_rule_6_2_10
-  tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.10
-      - notimplemented
-
-- name: "SCORED | 6.2.11 | PATCH | Ensure no users have .forward files"
+- name: "SCORED | 6.2.10 | Ensure no users have .forward files"
   file:
-      state: absent
-      dest: "~{{ item }}/.forward"
+    state: absent
+    dest: "~{{ item }}/.forward"
   with_items: "{{ users.stdout_lines }}"
   when:
-      - rhel8cis_rule_6_2_11
+    - rhel8cis_rule_6_2_10
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.11
+    - level1
+    - rule_6.2.10
 
-- name: "SCORED | 6.2.12 | PATCH | Ensure no users have .netrc files"
+- name: "SCORED | 6.2.11 | Ensure no users have .netrc files"
   file:
-      state: absent
-      dest: "~{{ item }}/.netrc"
+    state: absent
+    dest: "~{{ item }}/.netrc"
   with_items: "{{ users.stdout_lines }}"
   when:
-      - rhel8cis_rule_6_2_12
+    - rhel8cis_rule_6_2_11
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.12
+    - level1
+    - rule_6.2.11
 
-# - name: "SCORED | 6.2.13 | PATCH | Ensure users' .netrc Files are not group or world accessible"
+# - name: "SCORED | 6.2.12 | Ensure users' .netrc Files are not group or world accessible"
 #   file:
 #       mode: 0600
 #       dest: "~{{ item }}/.netrc"
 #   with_items: "{{ users.stdout_lines }}"
 #   tags:
 #       - level1
-#       - level2
-#       - patch
-#       - rule_6.2.13
+#       - rule_6.2.12
 
-- name: "SCORED | 6.2.14 | PATCH | Ensure no users have .rhosts files"
+- name: "SCORED | 6.2.13 | Ensure no users have .rhosts files"
   file:
-      state: absent
-      dest: "~{{ item }}/.rhosts"
+    state: absent
+    dest: "~{{ item }}/.rhosts"
   with_items: "{{ users.stdout_lines }}"
   when:
-      - rhel8cis_rule_6_2_14
+    - rhel8cis_rule_6_2_13
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.14
+    - level1
+    - rule_6.2.13
 
-- name: "SCORED | 6.2.15 | PATCH | Ensure all groups in /etc/passwd exist in /etc/group"
+- name: "SCORED | 6.2.14 | Ensure all groups in /etc/passwd exist in /etc/group"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_2_15
+    - rhel8cis_rule_6_2_14
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.15
-      - notimplemented
+    - level1
+    - rule_6.2.14
+    - notimplemented
 
-- name: "SCORED | 6.2.16 | PATCH | Ensure no duplicate UIDs exist"
+- name: "SCORED | 6.2.15 | Ensure no duplicate UIDs exist"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_2_16
+    - rhel8cis_rule_6_2_15
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.16
-      - notimplemented
+    - level1
+    - rule_6.2.15
+    - notimplemented
 
-- name: "SCORED | 6.2.17 | PATCH | Ensure no duplicate GIDs exist"
+- name: "SCORED | 6.2.16 | Ensure no duplicate GIDs exist"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_2_17
+    - rhel8cis_rule_6_2_16
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.17
-      - notimplemented
+    - level1
+    - rule_6.2.16
+    - notimplemented
 
-- name: "SCORED | 6.2.18 | PATCH | Ensure no duplicate user names exist"
+- name: "SCORED | 6.2.17 | Ensure no duplicate user names exist"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_2_18
+    - rhel8cis_rule_6_2_17
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.18
-      - notimplemented
+    - level1
+    - rule_6.2.17
+    - notimplemented
 
-- name: "SCORED | 6.2.19 | PATCH | Ensure no duplicate group names exist"
+- name: "SCORED | 6.2.18 | Ensure no duplicate group names exist"
   command: /bin/true
   changed_when: no
   when:
-      - rhel8cis_rule_6_2_19
+    - rhel8cis_rule_6_2_18
   tags:
-      - level1
-      - level2
-      - patch
-      - rule_6.2.19
+    - level1
+    - rule_6.2.18
+
+- name: "SCORED | 6.2.19 | Ensure shadow group is empty"
+  command: /bin/true
+  changed_when: no
+  when:
+    - rhel8cis_rule_6_2_19
+  tags:
+    - level1
+    - rule_6.2.19
+    - notimplemented
+
+- name: "SCORED | 6.2.20 | Ensure all users' home directories exist"
+  command: /bin/true
+  changed_when: no
+  when:
+    - rhel8cis_rule_6_2_20
+  tags:
+    - level1
+    - rule_6.2.20
+    - notimplemented

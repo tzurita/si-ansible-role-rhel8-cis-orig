@@ -193,13 +193,13 @@
   check_mode: no
 
 - name: "PRELIM | Check for autofs service"
-  shell: "systemctl show autofs | grep LoadState | cut -d = -f 2"
+  shell: "systemctl is-enabled autogs"
   register: autofs_service_status
   changed_when: no
   check_mode: no
 
 - name: "PRELIM | Check for rhnsd service"
-  shell: "systemctl show rhnsd | grep LoadState | cut -d = -f 2"
+  shell: "systemctl is-enabled rhnsd"
   register: rhnsd_service_status
   changed_when: no
   check_mode: no
