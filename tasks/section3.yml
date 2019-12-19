@@ -323,11 +323,12 @@
 - name: "SCORED | 3.4.3 | Configure nftables"
   block:
     - name: "Nftables Rules"
-      copy: etc/nftables/nftables.rules
-      dest: /etc/nftables/nftables.rules
-      owner: root
-      group: root
-      mode: 0644
+      copy:
+        source: etc/nftables/nftables.rules
+        dest: /etc/nftables/nftables.rules
+        owner: root
+        group: root
+        mode: 0644
 
     - name: "Load Nftables Rules"
       command: nft -f /etc/nftables/nftables.rules
@@ -338,7 +339,7 @@
     - name: "Configure nfttables.conf"
       lineinfile:
           dest: /etc/sysconfig/nftables.conf
-          regexp: "^(#)?include\s+"\/etc\/nftables\/nftables.rules\""
+          regexp: ^(#)?include\s+"\/etc/nftables/nftables.rules\"
           line: include "/etc/nftables/nftables.rules"
   when:
       - rhel8cis_firewall == "nftables"

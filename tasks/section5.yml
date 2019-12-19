@@ -487,7 +487,7 @@
   copy:
     src: "etc/pam.d/system-auth"
     dest: "/etc/pam.d/system-auth-ac"
-    backup:yes
+    backup: yes
   changed_when: no
   tags:
       - level1
