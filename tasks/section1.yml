@@ -1,3 +1,738 @@
+- name: "SCORED | 1.1.1.1 | Ensure mounting of cramfs filesystems is disabled"
+  block:
+    - name: "SCORED | 1.1.1.1 | Ensure mounting of cramfs filesystems is disabled"
+      lineinfile:
+        dest: /etc/modprobe.d/CIS.conf
+        regexp: "^(#)?install cramfs(\\s|$)"
+        line: "install cramfs /bin/true"
+        create: yes
+
+    - name: "SCORED | 1.1.1.1 | Remove cramfs module"
+      modprobe:
+        name: cramfs
+        state: absent
+  when:
+    - rhel8cis_rule_1_1_1_1
+  tags:
+    - level1
+    - scored
+    - rule_1.1.1.1
+    - cramfs
+
+- name: "SCORED | 1.1.1.2 | Ensure mounting of vFAT filesystems is disabled"
+  block:
+    - name: "SCORED | 1.1.1.2 | Ensure mounting of vFAT filesystems is disabled"
+      lineinfile:
+        dest: /etc/modprobe.d/CIS.conf
+        regexp: "^(#)?install vfat(\\s|$)"
+        line: "install vfat /bin/true"
+        create: yes
+
+    - name: "SCORED | 1.1.1.2 | Remove FAT module"
+      modprobe:
+        name: vfat
+        state: absent
+  when:
+    - rhel8cis_rule_1_1_1_2
+  tags:
+    - level1
+    - scored
+    - rule_1.1.1.2
+    - vfat
+
+- name: "SCORED | 1.1.1.3 | Ensure mounting of squashfs filesystems is disabled"
+  block:
+    - name: "SCORED | 1.1.1.3 | Ensure mounting of squashfs filesystems is disabled"
+      lineinfile:
+        dest: /etc/modprobe.d/CIS.conf
+        regexp: "^(#)?install squashfs(\\s|$)"
+        line: "install squashfs /bin/true"
+        create: yes
+
+    - name: "SCORED | 1.1.1.3 | Remove squashfs module"
+      modprobe:
+        name: squashfs
+        state: absent
+  when:
+    - rhel8cis_rule_1_1_1_3
+  tags:
+    - level1
+    - scored
+    - rule_1.1.1.3
+    - squashfs
+
+- name: "SCORED | 1.1.1.4 | Ensure mounting of udf filesystems is disabled"
+  block:
+    - name: "SCORED | 1.1.1.4 | Ensure mounting of udf filesystems is disabled"
+      lineinfile:
+        dest: /etc/modprobe.d/CIS.conf
+        regexp: "^(#)?install udf(\\s|$)"
+        line: "install udf /bin/true"
+        create: yes
+
+    - name: "SCORED | 1.1.1.4 | Remove udf module"
+      modprobe:
+        name: udf
+        state: absent
+  when:
+    - rhel8cis_rule_1_1_1_4
+  tags:
+    - level1
+    - scored
+    - rule_1.1.1.4
+    - udf
+
+- name: "SCORED | 1.1.2 | Ensure separate partition exists for /tmp | enable and start/restart tmp.mount"
+  systemd:
+    name: tmp.mount
+    daemon_reload: yes
+    enabled: yes
+    masked: no
+    state: started
+  when:
+    - rhel8cis_rule_1_1_2
+  tags:
+    - level2
+    - scored
+    - rule_1.1.2
+
+- name: "SCORED | 1.1.3 | Ensure nodev option set on /tmp partition\n
+         SCORED | 1.1.4 | Ensure nosuid option set on /tmp partition\n
+         SCORED | 1.1.5 | Ensure noexec option set on /tmp partition\n
+         | drop custom tmp.mount"
+  copy:
+    src: etc/systemd/system/tmp.mount
+    dest: /etc/systemd/system/tmp.mount
+    owner: root
+    group: root
+    mode: 0644
+  notify: systemd restart tmp.mount
+  when:
+    - rhel8cis_rule_1_1_3
+    - rhel8cis_rule_1_1_4
+    - rhel8cis_rule_1_1_5
+  tags:
+    - level1
+    - scored
+    - rule_1.1.3
+    - rule_1.1.4
+    - rule_1.1.5
+
+- name: "SCORED | 1.1.6 | Ensure separate partition exists for /var"
+  shell: mount | grep "on /var "
+  register: var_mounted
+  changed_when: no
+  failed_when: no
+  when:
+    - rhel8cis_rule_1_1_6
+  tags:
+    - level2
+    - scored
+    - rule_1.1.6
+    - skip_ansible_lint
+
+- name: "SCORED | 1.1.7 | Ensure separate partition exists for /var/tmp"
+  shell: mount | grep "on /var/tmp "
+  register: var_tmp_mounted
+  changed_when: no
+  failed_when: no
+  when:
+    - rhel8cis_rule_1_1_7
+  tags:
+    - level2
+    - scored
+    - rule_1.1.7
+    - skip_ansible_lint
+
+- name: "SCORED | 1.1.8  | Ensure nodev option set on /var/tmp partition\n
+         SCORED | 1.1.9  | Ensure nosuid option set on /var/tmp partition\n
+         SCORED | 1.1.10 | Ensure noexec option set on /var/tmp partition"
+  mount:
+    name: /var/tmp
+    src: "{{ rhel8cis_vartmp['source'] }}"
+    state: mounted
+    fstype: "{{ rhel8cis_vartmp['fstype'] }}"
+    opts: "{{ rhel8cis_vartmp['opts'] }}"
+  when:
+    - "{{ rhel8cis_vartmp['enabled'] }} == True" # Modified for SI Baseline
+    - rhel8cis_rule_1_1_8
+    - rhel8cis_rule_1_1_9
+    - rhel8cis_rule_1_1_10
+  tags:
+    - level1
+    - scored
+    - rule_1.1.8
+    - rule_1.1.9
+    - rule_1.1.10
+
+- name: "SCORED | 1.1.11 | Ensure separate partition exists for /var/log"
+  shell: mount | grep "on /var/log "
+  register: var_log_mounted
+  changed_when: no
+  failed_when: no
+  when:
+    - rhel8cis_rule_1_1_11
+  tags:
+    - level2
+    - scored
+    - rule_1.1.11
+    - skip_ansible_lint
+
+- name: "SCORED | 1.1.12 | Ensure separate partition exists for /var/log/audit"
+  shell: mount | grep "on /var/log/audit "
+  register: var_log_audit_mounted
+  changed_when: no
+  failed_when: no
+  when:
+    - rhel8cis_rule_1_1_12
+  tags:
+    - level2
+    - scored
+    - rule_1.1.12
+    - skip_ansible_lint
+
+- name: "SCORED | 1.1.13 | Ensure separate partition exists for /home"
+  shell: mount | grep "on /home"
+  register: home_mounted
+  changed_when: no
+  failed_when: no
+  when:
+    - rhel8cis_rule_1_1_13
+  tags:
+    - level2
+    - scored
+    - rule_1.1.13
+    - skip_ansible_lint
+
+- name: "SCORED | 1.1.14 | Ensure nodev option set on /home partition"
+  mount:
+    name: "/home"
+    src: "{{ rhel8cis_home['source'] }}"
+    state: mounted
+    fstype: "{{ rhel8cis_home['fstype'] }}"
+    opts: "{{ rhel8cis_home['opts'] }}"
+  when:
+    - "{{ rhel8cis_home['enabled'] }} == True" # Modified for SI Baseline
+  tags:
+    - level1
+    - level2
+    - rule_1.1.14
+
+- name: "SCORED | 1.1.15 | Ensure nodev option set on /dev/shm partition\n
+         SCORED | 1.1.16 | Ensure nosuid option set on /dev/shm partition\n
+         SCORED | 1.1.17 | Ensure noexec option set on /dev/shm partition"
+  mount:
+    name: /dev/shm
+    src: tmpfs
+    state: mounted
+    fstype: tmpfs
+    opts: "defaults,nodev,nosuid,noexec"
+  when:
+    - rhel8cis_rule_1_1_15
+    - rhel8cis_rule_1_1_16
+    - rhel8cis_rule_1_1_17
+  tags:
+    - level1
+    - scored
+    - rule_1.1.15
+    - rule_1.1.16
+    - rule_1.1.17
+
+- name: "NOTSCORED | 1.1.18 | Ensure nodev option set on removable media partitions"
+  debug:
+    msg: "--> Not relevant"
+  changed_when: no
+  when:
+    - rhel8cis_rule_1_1_18
+  tags:
+    - level1
+    - notscored
+    - rule_1.1.18
+
+- name: "NOTSCORED | 1.1.19 | Ensure nosuid option set on removable media partitions"
+  debug:
+    msg: "--> Not relevant"
+  changed_when: no
+  when:
+    - rhel8cis_rule_1_1_19
+  tags:
+    - level1
+    - notscored
+    - rule_1.1.19
+
+- name: "NOTSCORED | 1.1.20 | Ensure noexec option set on removable media partitions"
+  debug:
+    msg: "--> Not relevant"
+  changed_when: no
+  when:
+    - rhel8cis_rule_1_1_20
+  tags:
+    - level1
+    - notscored
+    - rule_1.1.20
+
+- name: "SCORED | 1.1.21 | Ensure sticky bit is set on all world-writable directories"
+  shell: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t
+  changed_when: no
+  failed_when: no
+  #when: sticky_bit_on_worldwritable_dirs_audit.rc == '0'
+  when:
+    - rhel8cis_rule_1_1_21
+  tags:
+    - level1
+    - level2
+    - rule_1.1.21
+
+- name: "SCORED | 1.1.22 | Disable Automounting"
+  systemd:
+    name: autofs
+    state: stopped
+    enabled: no
+  when:
+    - rhel8cis_allow_autofs == false and autofs_service_status.stdout == "enabled"
+    - rhel8cis_rule_1_1_22
+  tags:
+    - level1
+    - rule_1.1.22
+
+- name: "NOTSCORED | 1.2.1 | Ensure Red Hat Subscription Manager connection is configured"
+  command: subscription-manager identity
+  register: subscription_configured
+  changed_when: no
+  failed_when: no
+  when:
+    - rhel8cis_rule_1_2_1
+  tags:
+    - level1
+    - notscored
+    - rule_1.2.1
+    - skip_ansible_lint
+
+- name: "notscored | 1.2.2 | disable the rhnsd daemon"
+  systemd:
+    name: rhnsd
+    state: stopped
+    enabled: no
+  when:
+    - ansible_distribution == "redhat" and rhnsd_service_status.stdout == "disabled" and not rhel8cis_rhnsd_required
+    - rhel8cis_rule_1_2_2
+  tags:
+    - level2
+    - notscored
+    - rule_1.2.2
+
+- name: "notscored | 1.2.3 | ensure gpg keys are configured"
+  command: gpg --quiet --with-fingerprint /etc/pki/rpm-gpg/rpm-gpg-key-{{ ansible_distribution|lower }}-release
+  when:
+    - rhel8cis_rule_1_2_3
+    - ansible_distribution == "redhat"
+  tags:
+    - level1
+    - notscored
+    - rule_1.2.3
+
+- name: "scored | 1.2.4 | ensure gpgcheck is globally activated"
+  block:
+    - name: "scored | 1.2.4 | ensure gpgcheck is globally activated"
+      replace:
+        name: /etc/yum.conf
+        regexp: "^gpgcheck=0"
+        replace: "gpgcheck=1"
+
+    - name: "scored | 1.2.4 | ensure gpgcheck is globally activated"
+      find:
+        paths: /etc/yum.repos.d
+        patterns: "/*.repo"
+      register: yum_repos
+      changed_when: no
+
+    - name: "scored | 1.2.4 | ensure gpgcheck is globally activated"
+      replace:
+        name: "{{ item.path }}"
+        regexp: "^gpgcheck=0"
+        replace: "gpgcheck=1"
+      with_items:
+        - "{{ yum_repos.files }}"
+  when:
+    - rhel8cis_rule_1_2_4
+  tags:
+    - level1
+    - scored
+    - rule_1.2.4
+
+- name: "scored | 1.3.1 | ensure sudo is installed"
+  dnf:
+    name: sudo
+    state: present
+  when:
+    - rhel8cis_rule_1_3_1
+  tags:
+    - level1
+    - scored
+    - aide
+    - rule_1.3.1
+
+- name: "scored | 1.3.2 | ensure sudo commands user pty"
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^\s*defaults\s+use_pty'
+    line: 'defaults use_pty'
+    create: yes
+  when:
+    - rhel8cis_rule_1_3_2
+  tags:
+    - level1
+    - scored
+    - aide
+    - rule_1.3.2
+
+- name: "scored | 1.3.3 | ensure sudo log file exists"
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^\s*defaults\s+([^#]+,\s*)?logfile="\/var\/log\/sudo\.log"'
+    line: 'defaults  logfile="/var/log/sudo.log"'
+    create: yes
+  when:
+    - rhel8cis_rule_1_3_3
+  tags:
+    - level1
+    - scored
+    - aide
+    - rule_1.3.3
+
+- name: "scored | 1.4.1 | ensure aide is installed"
+  block:
+    - name: "scored | 1.4.1 | ensure aide is installed"
+      dnf:
+        name: aide
+        state: present
+
+    - name: "scored | 1.4.1 | ensure aide is installed"
+      command: /usr/sbin/aide --init -b 'database_out=file:/var/lib/aide/aide.db.gz'
+      args:
+        creates: /var/lib/aide/aide.db.gz
+      changed_when: no
+      failed_when: no
+      async: 45
+      poll: 0
+      when:
+        - rhel8cis_config_aide
+  when:
+    - rhel8cis_rule_1_4_1
+  tags:
+    - level1
+    - scored
+    - aide
+    - rule_1.4.1
+
+- name: "scored | 1.4.2 | ensure filesystem integrity is regularly checked"
+  cron:
+    name: run aide integrity check weekly
+    cron_file: "{{ rhel8cis_aide_cron['cron_file'] }}"
+    user: "{{ rhel8cis_aide_cron['cron_user'] }}"
+    minute: "{{ rhel8cis_aide_cron['aide_minute'] | default('0') }}"
+    hour: "{{ rhel8cis_aide_cron['aide_hour'] | default('5') }}"
+    day: "{{ rhel8cis_aide_cron['aide_day'] | default('*') }}"
+    month: "{{ rhel8cis_aide_cron['aide_month'] | default('*') }}"
+    weekday: "{{ rhel8cis_aide_cron['aide_weekday'] | default('*') }}"
+    job: "{{ rhel8cis_aide_cron['aide_job'] }}"
+  when:
+    - rhel8cis_rule_1_4_2
+  tags:
+    - level1
+    - scored
+    - aide
+    - file_integrity
+    - rule_1.4.2
+
+- name: "scored | 1.5.1 | ensure permissions on bootloader config are configured" # modified si baseline
+  block:
+    - name: "scored | 1.5.1 | ensure permissions on bootloader config are configured" # modified si baseline
+      stat:
+        path: /etc/grub2-efi.cfg
+      register: grub_cfg
+
+    - name: "scored | 1.5.1 | ensure permissions on bootloader config are configured"
+      file:
+        path: "{{ grub_cfg.stat.lnk_source }}"
+        owner: root
+        group: root
+        mode: 0600
+      when:
+        - grub_cfg.stat.exists and grub_cfg.stat.islnk
+  when:
+    - rhel8cis_rule_1_5_1
+  tags:
+    - level1
+    - scored
+    - grub
+    - rule_1.5.1
+
+
+- name: "scored | 1.5.2 | ensure bootloader password is set" # modified for si baseline
+  expect:
+    command: grub2-setpassword
+    responses:
+      (?i)password: "{{ rhel8cis_bootloader_password }}"
+  notify: generate new grub config
+  when:
+    #    - rhel8cis_set_boot_pass and grub_pass is defined and grub_pass.passhash is defined and grub_pass.passhash != ''
+    - rhel8cis_rule_1_5_2
+  tags:
+    - level1
+    - scored
+    - grub
+    - rule_1.5.2
+
+- name: "notscored | 1.5.3 | ensure authentication required for single user mode"
+  block:
+    - name: "notscored | 1.5.3 | ensure authentication required for single user mode - emergency"
+      lineinfile:
+        dest: /usr/lib/systemd/system/emergency.service
+        regexp: '/sbin/sulogin'
+        line: 'execstart=-/usr/lib/systemd/systemd-sulogin-shell rescue'
+
+    - name: "notscored | 1.5.3 | ensure authentication required for single user mode - rescue"
+      lineinfile:
+        dest: /usr/lib/systemd/system/rescue.service
+        regexp: '/sbin/sulogin'
+        line: 'execstart=-/usr/lib/systemd/systemd-sulogin-shell rescue'
+  when:
+    - rhel8cis_rule_1_5_3
+    - ansible_distribution_major_version == 8
+  tags:
+    - level1
+    - level2
+    - rule_1.5.3
+
+- name: "scored | 1.6.1 | ensure core dumps are restricted"
+  block:
+    - name: "scored | 1.6.1 | ensure core dumps are restricted"
+      lineinfile:
+        state: present
+        dest: /etc/security/limits.conf
+        regexp: '^#?\\*.*core'
+        line: '*                hard    core            0'
+        insertbefore: '^# end of file'
+
+    - name: "scored | 1.6.1 | ensure core dumps are restricted"
+      sysctl:
+        name: fs.suid_dumpable
+        value: 0
+        state: present
+        reload: yes
+        sysctl_set: yes
+        ignoreerrors: yes
+  when:
+    - rhel8cis_rule_1_6_1
+  tags:
+    - level1
+    - scored
+    - sysctl
+    - rule_1.6.1
+
+- name: "scored | 1.6.2 | ensure address space layout randomization (aslr) is enabled"
+  sysctl:
+    name: kernel.randomize_va_space
+    value: 2
+    state: present
+    reload: yes
+    sysctl_set: yes
+    ignoreerrors: yes
+  when:
+    - rhel8cis_rule_1_6_2
+  tags:
+    - level1
+    - scored
+    - rule_1.6.2
+
+- name: "scored | 1.7.1.1 | ensure selinux is installed"
+  dnf:
+    name: libselinux
+    state: present
+  when:
+    - rhel8cis_rule_1_7_1_1
+  tags:
+    - level2
+    - scored
+    - rule_1.7.1.1
+
+- name: "scored | 1.7.1.2 | ensure selinux is not disabled in bootloader configuration"
+  replace:
+    dest: /etc/default/grub
+    regexp: '(selinux|enforcing)\s*=\s*0\s*'
+    follow: yes
+  register: selinux_grub_patch
+  ignore_errors: yes
+  notify: generate new grub config
+  when:
+    - rhel8cis_rule_1_7_1_2
+  tags:
+    - level2
+    - scored
+    - rule_1.7.1.2
+
+- name: "scored | 1.7.1.3 | ensure selinux policy is configured"
+  selinux:
+    conf: /etc/selinux/config
+    policy: "{{ rhel8cis_selinux_pol }}"
+    state: "{{ rhel8cis_selinux_state }}"
+  when:
+    - not rhel8cis_selinux_disable
+    - rhel8cis_rule_1_7_1_3
+  tags:
+    - level2
+    - scored
+    - selinux
+    - rule_1.7.1.3
+
+- name: "scored | 1.7.1.4 | ensure the selinux state is enforcing"
+  selinux:
+    conf: /etc/selinux/config
+    policy: "{{ rhel8cis_selinux_pol }}"
+    state: "{{ rhel8cis_selinux_state }}"
+  when:
+    - not rhel8cis_selinux_disable
+    - rhel8cis_rule_1_7_1_4
+  tags:
+    - level2
+    - scored
+    - selinux
+    - rule_1.7.1.4
+
+- name: "SCORED | 1.7.1.6 | Ensure SETroubleshoot is not installed"
+  dnf:
+    name: setroubleshoot
+    state: absent
+  when:
+    - rhel8cis_rule_1_7_1_6
+  tags:
+    - level2
+    - scored
+    - selinux
+    - rule_1.7.1.6
+
+- name: "SCORED | 1.7.1.7 | Ensure the MCS Translation Service (mcstrans) is not installed"
+  dnf:
+    name: mcstrans
+    state: absent
+  when:
+    - rhel8cis_rule_1_7_1_7
+  tags:
+    - level2
+    - scored
+    - rule_1.7.1.7
+
+- name: "SCORED | 1.8.1.1 | Ensure message of the day is configured properly"
+  template:
+    src: etc/motd.j2
+    dest: /etc/motd
+  when:
+    - rhel8cis_rule_1_8_1_1
+  tags:
+    - level1
+    - banner
+    - rule_1.8.1.1
+
+- name: "NOTSCORED | 1.8.1.2 | Ensure local login warning banner is configured properly"
+  template:
+    src: etc/issue.j2
+    dest: /etc/issue
+  when:
+    - rhel8cis_rule_1_8_1_2
+  tags:
+    - level1
+    - rule_1.8.1.2
+
+- name: "NOTSCORED | 1.8.1.3 | Ensure remote login warning banner is configured properly"
+  template:
+    src: etc/issue.net.j2
+    dest: /etc/issue.net
+  when:
+    - rhel8cis_rule_1_8_1_3
+  tags:
+    - level1
+    - banner
+    - rule_1.8.1.3
+
+- name: "NOTSCORED | 1.8.1.4 | Ensure permissions on /etc/motd are configured"
+  file:
+    dest: /etc/motd
+    state: file
+    owner: root
+    group: root
+    mode: 0644
+  when:
+    - rhel8cis_rule_1_8_1_4
+  tags:
+    - level1
+    - perms
+    - rule_1.8.1.4
+
+- name: "SCORED | 1.8.1.5 | Ensure permissions on /etc/issue are configured"
+  file:
+    dest: /etc/issue
+    state: file
+    owner: root
+    group: root
+    mode: 0644
+  when:
+    - rhel8cis_rule_1_8_1_5
+  tags:
+    - level1
+    - perms
+    - rule_1.8.1.5
+
+- name: "NOTSCORED | 1.8.1.6 | Ensure permissions on /etc/issue.net are configured"
+  file:
+    dest: /etc/issue.net
+    state: file
+    owner: root
+    group: root
+    mode: 0644
+  when:
+    - rhel8cis_rule_1_8_1_6
+  tags:
+    - level1
+    - perms
+    - rule_1.8.1.6
+
+- name: "SCORED | 1.8.2 | Ensure GDM login banner is configured"
+  lineinfile:
+    dest: "{{ item.file }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    create: yes
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - { file: '/etc/dconf/profile/gdm', regexp:  'user-db', line: 'user-db:user' }
+    - { file: '/etc/dconf/profile/gdm', regexp:  'system-db', line: 'system-db:gdm' }
+    - { file: '/etc/dconf/profile/gdm', regexp:  'file-db', line: 'file-db:/usr/share/gdm/greeter-dconf-defaults' }
+    - { file: '/etc/dconf/db/gdm.d/01-banner-message', regexp:  '\[org\/gnome\/login-screen\]', line: '[org/gnome/login-screen]' }
+    - { file: '/etc/dconf/db/gdm.d/01-banner-message', regexp:  'banner-message-enable', line: 'banner-message-enable=true' }
+    - { file: '/etc/dconf/db/gdm.d/01-banner-message', regexp:  'banner-message-text', line: "banner-message-text='{{ rhel8cis_warning_banner }}' " }
+  when:
+    - rhel8cis_gui
+    - rhel8cis_rule_1_8_2
+  tags:
+    - level1
+    - level2
+    - rule_1.8.2
+
+- name: "NOTSCORED | 1.9 | Ensure updates, patches, and additional security software are installed"
+  dnf:
+    name: "*"
+    state: latest
+  when:
+    - rhel8cis_rule_1_9
+  tags:
+    - level1
+    - level2
+    - rule_1.9
+
 - name: "SCORED | 1.10 | Ensure system-wide crypto policy is not legacy"
   block:
     - name: Check Crypto Policy
@@ -15,3 +750,5 @@
     - level1
     - level2
     - rule_1.10
+
+- skip_ansible_lint
