@@ -750,5 +750,3 @@
     - level1
     - level2
     - rule_1.10
-
-- skip_ansible_lint
