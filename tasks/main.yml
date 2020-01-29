@@ -5,14 +5,14 @@
       msg: "This role can only be run against RHEL 8. {{ ansible_distribution }} {{ ansible_distribution_major_version }} is not supported."
   when:
       - ansible_os_family == 'RedHat'
-      - ansible_distribution_major_version | version('i', '!=')
+      - ansible_distribution_major_version is version('8', '!=')
   tags:
       - always
 
 - name: Check ansible version
   fail:
       msg: You must use ansible 2.1 or greater
-  when: not ansible_version.full | version('2.1', '>=')
+  when: not ansible_version.full is version('2.1', '>=')
   tags:
       - always
 

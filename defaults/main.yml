@@ -17,237 +17,253 @@ rhel8cis_selinux_disable: false
 # PLEASE NOTE: These work in coordination with the section # group variables and tags.
 # You must enable an entire section in order for the variables below to take effect.
 # Section 1 rules
-rhel8cis_rule_1_1_1_1: true
-rhel8cis_rule_1_1_1_2: true
-rhel8cis_rule_1_1_1_3: true
-rhel8cis_rule_1_1_1_4: true
-rhel8cis_rule_1_1_2: true
-rhel8cis_rule_1_1_3: true
-rhel8cis_rule_1_1_4: true
-rhel8cis_rule_1_1_5: true
-rhel8cis_rule_1_1_6: true
-rhel8cis_rule_1_1_7: true
-rhel8cis_rule_1_1_8: true
-rhel8cis_rule_1_1_9: true
-rhel8cis_rule_1_1_10: true
-rhel8cis_rule_1_1_11: true
-rhel8cis_rule_1_1_12: true
-rhel8cis_rule_1_1_13: true
-rhel8cis_rule_1_1_14: true
-rhel8cis_rule_1_1_15: true
-rhel8cis_rule_1_1_16: true
-rhel8cis_rule_1_1_17: true
-rhel8cis_rule_1_1_18: true
-rhel8cis_rule_1_1_19: true
-rhel8cis_rule_1_1_20: true
-rhel8cis_rule_1_1_21: true
-rhel8cis_rule_1_1_22: true
-rhel8cis_rule_1_1_23: false # Disable USB Storage
-rhel8cis_rule_1_2_1: true
-rhel8cis_rule_1_2_2: true
-rhel8cis_rule_1_2_3: true
-rhel8cis_rule_1_2_4: true
-rhel8cis_rule_1_3_1: true
-rhel8cis_rule_1_3_2: true
-rhel8cis_rule_1_3_3: true
-rhel8cis_rule_1_4_1: true
-rhel8cis_rule_1_4_2: true
-rhel8cis_rule_1_5_1: true
-rhel8cis_rule_1_5_2: true
-rhel8cis_rule_1_5_3: true
-rhel8cis_rule_1_6_1: true
-rhel8cis_rule_1_6_2: true
-rhel8cis_rule_1_7_1_1: true
-rhel8cis_rule_1_7_1_2: true
-rhel8cis_rule_1_7_1_3: true
-rhel8cis_rule_1_7_1_4: true
-rhel8cis_rule_1_7_1_5: false
-rhel8cis_rule_1_6_2: true
-rhel8cis_rule_1_7_1_1: true
-rhel8cis_rule_1_7_1_2: true
-rhel8cis_rule_1_7_1_3: true
-rhel8cis_rule_1_7_1_4: true
-rhel8cis_rule_1_7_1_5: true
-rhel8cis_rule_1_7_1_6: true
-rhel8cis_rule_1_7_1_7: true
-rhel8cis_rule_1_8_1_1: true
-rhel8cis_rule_1_8_1_2: true
-rhel8cis_rule_1_8_1_3: true
-rhel8cis_rule_1_8_1_4: true
-rhel8cis_rule_1_8_1_5: true
-rhel8cis_rule_1_8_2: true
-rhel8cis_rule_1_9: true
-rhel8cis_rule_1_10: true
+rhel8cis_rule_1_1_1_1: true  # Ensure mounting of cramfs filesystems is disabled
+rhel8cis_rule_1_1_1_2: false # Ensure mounting of vFAT filesystems is disabled
+rhel8cis_rule_1_1_1_3: true  # Ensure mounting of squashfs filesystems is disabled
+rhel8cis_rule_1_1_1_4: true  # Ensure mounting of udf filesystems is disabled
+rhel8cis_rule_1_1_2: true    # Ensure separate partition exists for /tmp | enable and start/restart tmp.mount
+rhel8cis_rule_1_1_3: true    # Ensure nodev option set on /tmp partition
+rhel8cis_rule_1_1_4: true    # Ensure nosuid option set on /tmp partition
+rhel8cis_rule_1_1_5: true    # Ensure noexec option set on /tmp partition
+rhel8cis_rule_1_1_6: true    # Ensure separate partition exists for /var
+rhel8cis_rule_1_1_7: true    # Ensure separate partition exists for /var/tmp
+rhel8cis_rule_1_1_8: true    # Ensure nodev option set on /var/tmp partition
+rhel8cis_rule_1_1_9: true    # Ensure nosuid option set on /var/tmp partition
+rhel8cis_rule_1_1_10: true   # Ensure noexec option set on /var/tmp partition
+rhel8cis_rule_1_1_11: true   # Ensure separate partition exists for /var/log
+rhel8cis_rule_1_1_12: true   # Ensure separate partition exists for /var/log/audit
+rhel8cis_rule_1_1_13: true   # Ensure separate partition exists for /home
+rhel8cis_rule_1_1_14: true   # Ensure nodev option set on /home
+rhel8cis_rule_1_1_15: true   # Ensure nodev option set on /dev/shm partition
+rhel8cis_rule_1_1_16: true   # Ensure nosuid option set on /dev/shm partition
+rhel8cis_rule_1_1_17: true   # Ensure noexec option set on /dev/shm partition
+rhel8cis_rule_1_1_18: false  # Ensure nodev option set on removable media partitions
+rhel8cis_rule_1_1_19: true   # Ensure nosuid option set on removable media partitions
+rhel8cis_rule_1_1_20: true   # Ensure noexec option set on removable media partitions
+rhel8cis_rule_1_1_21: true   # Ensure sticky bit is set on all world-writable directories
+rhel8cis_rule_1_1_22: true   # Diable automounting
+rhel8cis_rule_1_1_23: false  # Disable USB Storage
+rhel8cis_rule_1_2_1: true    # Ensure Red Hat Subscription Manager connection is configured
+rhel8cis_rule_1_2_2: true    # Disable the RHNSD daemon
+rhel8cis_rule_1_2_3: true    # Ensure gpg keys are configured
+rhel8cis_rule_1_2_4: true    # Ensure gpgcheck is globally activated
+rhel8cis_rule_1_2_5: false   # Ensure pacckage manager repositories are configured
+rhel8cis_rule_1_3_1: true    # Ensure sudo is installed
+rhel8cis_rule_1_3_2: true    # Ensure sudo commands user pty
+rhel8cis_rule_1_3_3: true    # Ensure sudo log file exists
+rhel8cis_rule_1_4_1: true    # Ensure aide is installed
+rhel8cis_rule_1_4_2: true    # Ensure filesystem integrity is regularly checked
+rhel8cis_rule_1_5_1: true    # Ensure permissions on bootloader config are configured
+rhel8cis_rule_1_5_2: true    # Ensure bootloader password is set
+rhel8cis_rule_1_5_3: true    # Ensure authentication required for single user mode
+rhel8cis_rule_1_6_1: true    # Ensure core dumps are restricted
+rhel8cis_rule_1_6_2: true    # Ensure address space layout randomization (ASLR) is enabled
+rhel8cis_rule_1_7_1_1: true  # Ensure selinux is installed
+rhel8cis_rule_1_7_1_2: true  # Ensure selinux is not disabled in bootloader configuration
+rhel8cis_rule_1_7_1_3: true  # Ensure selinux policy is configured
+rhel8cis_rule_1_7_1_4: true  # Ensure the selinux state is enforcing
+rhel8cis_rule_1_7_1_5: false # Ensure no unconfined services exist
+rhel8cis_rule_1_7_1_6: true  # Ensure SETroubleshoot is not installed
+rhel8cis_rule_1_7_1_7: true  # Ensure the MCS Translation Service (mcstrans) is not installed
+rhel8cis_rule_1_8_1_1: true  # Ensure message of the day is configured properly
+rhel8cis_rule_1_8_1_2: true  # Ensure local login warning banner is configured properly
+rhel8cis_rule_1_8_1_3: true  # Ensure remote login warning banner is configured properly
+rhel8cis_rule_1_8_1_4: true  # Ensure permissions on /etc/motd are configured
+rhel8cis_rule_1_8_1_5: true  # Ensure permissions on /etc/issue are configured
+rhel8cis_rule_1_8_1_6: true  # Ensure permissions on /etc/issue.net are configured
+rhel8cis_rule_1_8_2: true    # Ensure GDM login banner is configured
+rhel8cis_rule_1_9: true      # Ensure updates, patches, and additional security software are installed
+rhel8cis_rule_1_10: true     # Ensure system-wide crypto policy is not legacy
+rhel8cis_rule_1_11: false    # Ensure system-wide crypto policy is is FUTURE or FIPS # TODO
 
 # Section 2 rules
-rhel8cis_rule_2_1_1: true
-rhel8cis_rule_2_2_1_1: true
-rhel8cis_rule_2_2_1_2: true
-rhel8cis_rule_2_2_2: true
-rhel8cis_rule_2_2_3: true
-rhel8cis_rule_2_2_4: true
-rhel8cis_rule_2_2_5: true
-rhel8cis_rule_2_2_6: true
-rhel8cis_rule_2_2_7: true
-rhel8cis_rule_2_2_8: true
-rhel8cis_rule_2_2_9: true
-rhel8cis_rule_2_2_10: true
-rhel8cis_rule_2_2_11: true
-rhel8cis_rule_2_2_12: true
-rhel8cis_rule_2_2_13: true
-rhel8cis_rule_2_2_14: true
-rhel8cis_rule_2_2_15: true
-rhel8cis_rule_2_2_16: true
-rhel8cis_rule_2_2_17: true
-rhel8cis_rule_2_2_18: true
-rhel8cis_rule_2_2_21: true
-rhel8cis_rule_2_3_1: true
-rhel8cis_rule_2_3_2: true
-rhel8cis_rule_2_3_3: true
+rhel8cis_rule_2_1_1: true    # Ensure xinetd is not installed
+rhel8cis_rule_2_2_1_1: true  # Ensure time synchronization is in use
+rhel8cis_rule_2_2_1_2: true  # Ensure chrony is configured
+rhel8cis_rule_2_2_2: false   # Ensure X Window System is not installed
+rhel8cis_rule_2_2_3: true    # Ensure rsync service is not enabled
+rhel8cis_rule_2_2_4: true    # Ensure Avahi Server is not enabled
+rhel8cis_rule_2_2_5: true    # Ensure SNMP Server is not enabled"
+rhel8cis_rule_2_2_6: true    # Ensure HTTP Proxy Server is not enabled
+rhel8cis_rule_2_2_7: true    # Ensure Samba is not enabled
+rhel8cis_rule_2_2_8: true    # Ensure IMAP and POP3 server is not enabled
+rhel8cis_rule_2_2_9: true    # Ensure HTTP server is not enabled
+rhel8cis_rule_2_2_10: true   # Ensure FTP server is not enabled
+rhel8cis_rule_2_2_11: true   # Ensure DNS Server is not enabled
+rhel8cis_rule_2_2_12: true   # Ensure NFS is not enabled
+rhel8cis_rule_2_2_13: true   # Ensure RPC is not enabled
+rhel8cis_rule_2_2_14: true   # Ensure LDAP service is not enabled
+rhel8cis_rule_2_2_15: true   # Ensure DHCP is not enabled
+rhel8cis_rule_2_2_16: true   # Ensure CUPS is not enabled # TODO
+rhel8cis_rule_2_2_17: true   # Ensure NIS Server is not enabled # TODO
+rhel8cis_rule_2_2_18: true   # Ensure mail transfer agent is configured for local-only mode # TODO
+rhel8cis_rule_2_3_1: true    # Ensure NIS Client is not installed
+rhel8cis_rule_2_3_2: true    # Ensure telnet client is not installed
+rhel8cis_rule_2_3_3: true    # Ensure LDAP client is not installed
 
 # Section 3 rules
-rhel8cis_rule_3_1_1: true
-rhel8cis_rule_3_1_2: true
-rhel8cis_rule_3_2_1: true
-rhel8cis_rule_3_2_2: true
-rhel8cis_rule_3_2_3: true
-rhel8cis_rule_3_2_4: true
-rhel8cis_rule_3_2_5: true
-rhel8cis_rule_3_2_6: true
-rhel8cis_rule_3_2_7: true
-rhel8cis_rule_3_2_8: true
-rhel8cis_rule_3_3_1: true
-rhel8cis_rule_3_3_2: true
-rhel8cis_rule_3_3_3: true
-rhel8cis_rule_3_4_1: true
-rhel8cis_rule_3_4_2: true
-rhel8cis_rule_3_4_3: true
-rhel8cis_rule_3_4_4: true
-rhel8cis_rule_3_4_5: true
-rhel8cis_rule_3_5_1: true
-rhel8cis_rule_3_5_2: true
-rhel8cis_rule_3_5_3: true
-rhel8cis_rule_3_5_4: true
-rhel8cis_rule_3_6_1: true
-rhel8cis_rule_3_6_2: true
-rhel8cis_rule_3_6_3: true
-rhel8cis_rule_3_6_4: true
-rhel8cis_rule_3_6_5: true
+rhel8cis_rule_3_1_1: true    # Ensure IP forwarding is disabled
+rhel8cis_rule_3_1_2: true    # Ensure packet redirect sending is disabled
+rhel8cis_rule_3_2_1: true    # Ensure source routed packets are not accepted
+rhel8cis_rule_3_2_2: true    # Ensure ICMP redirects are not accepted
+rhel8cis_rule_3_2_3: true    # Ensure secure ICMP redirects are not accepted
+rhel8cis_rule_3_2_4: true    # Ensure suspicious packets are logged
+rhel8cis_rule_3_2_5: true    # Ensure broadcast ICMP requests are ignored
+rhel8cis_rule_3_2_6: true    # Ensure bogus ICMP responses are ignored
+rhel8cis_rule_3_2_7: true    # Ensure Reverse Path Filtering is enabled
+rhel8cis_rule_3_2_8: true    # Ensure TCP SYN Cookies is enabled
+rhel8cis_rule_3_2_9: true    # Ensure IPv6 router advertisements are not accepted
+rhel8cis_rule_3_3_1: true    # Ensure DCCP is disabled
+rhel8cis_rule_3_3_2: true    # Ensure SCTP is disabled
+rhel8cis_rule_3_3_3: true    # Ensure RDS is disabled
+rhel8cis_rule_3_3_4: true    # Ensure TIPC is disabled
+rhel8cis_rule_3_4_2: true  # Ensure a Firewall package is installed
+rhel8cis_rule_3_4_2_1: true  # Ensure firewalld service is enabled and running
+rhel8cis_rule_3_4_2_2: true  # Ensure iptables is not enabled
+rhel8cis_rule_3_4_2_3: true  # Ensure nftables is not enabled
+rhel8cis_rule_3_4_2_4: true  # Ensure default zone is set
+rhel8cis_rule_3_4_2_5: true  # Ensure network interfaces are assigned to the appropriate zone
+rhel8cis_rule_3_4_2_6: true  # Ensure unnessary services and ports are not accepted
+rhel8cis_rule_3_4_3: true    # Configure nftables TODO
+rhel8cis_rule_3_4_3_1: true  # Ensure iptables are flushed TODO
+rhel8cis_rule_3_4_3_2: true  # Ensure a table exists TODO
+rhel8cis_rule_3_4_3_3: true  # Ensure base chains exist TODO
+rhel8cis_rule_3_4_3_4: true  # Ensure loopback traffic is configured TODO
+rhel8cis_rule_3_4_3_5: true  # Ensure outbound and established connections are configured TODO
+rhel8cis_rule_3_4_3_6: true  # Ensure default deny firewall policy TODO
+rhel8cis_rule_3_4_3_7: true  # Ensure nftables service is enabled TODO
+rhel8cis_rule_3_4_3_8: true  # Ensure nftables rules are permanent TODO
+rhel8cis_rule_3_4_4: true    # Configure iptablesTODO
+rhel8cis_rule_3_4_4_1: true  # Configure IPv4 iptables TODO
+rhel8cis_rule_3_4_4_1_1: true  # Ensure default deny firewall policy TODO
+rhel8cis_rule_3_4_4_1_2: true  # Ensure loopback traffic is configured TODO
+rhel8cis_rule_3_4_4_1_3: true  # Ensure outbound and established connections are configured TODO
+rhel8cis_rule_3_4_4_1_4: true  # Ensure firewall rules exist for all open ports TODO
+rhel8cis_rule_3_4_4_2: true  # Configure IPv6 iptables TODO
+rhel8cis_rule_3_4_4_2_1: true  # Ensure IPv6 default deny firewall policy TODO
+rhel8cis_rule_3_4_4_2_2: true  # Ensure IPv6 loopback traffic is configured TODO
+rhel8cis_rule_3_4_4_2_3: true  # Ensure IPv6 outbound and established connections are configured TODO
+rhel8cis_rule_3_4_4_2_4: true  # Ensure IPv6 firewall rules exist for all open ports TODO
+rhel8cis_rule_3_5: true      # Ensure wireless interfaces are disabled TODO
+rhel8cis_rule_3_6: true      # Ensure IPv6 is disabled TODO
 
 # Section 4 rules
-rhel8cis_rule_4_1_1_1: true
-rhel8cis_rule_4_1_1_2: true
-rhel8cis_rule_4_1_1_3: true
-rhel8cis_rule_4_1_2: true
-rhel8cis_rule_4_1_3: true
-rhel8cis_rule_4_1_4: true
-rhel8cis_rule_4_1_5: true
-rhel8cis_rule_4_1_6: true
-rhel8cis_rule_4_1_7: true
-rhel8cis_rule_4_1_8: true
-rhel8cis_rule_4_1_9: true
-rhel8cis_rule_4_1_10: true
-rhel8cis_rule_4_1_11: true
-rhel8cis_rule_4_1_12: true
-rhel8cis_rule_4_1_13: true
-rhel8cis_rule_4_1_14: true
-rhel8cis_rule_4_1_15: true
-rhel8cis_rule_4_1_16: true
-rhel8cis_rule_4_1_17: true
-rhel8cis_rule_4_1_18: true
-rhel8cis_rule_4_2_1_1: true
-rhel8cis_rule_4_2_1_2: true
-rhel8cis_rule_4_2_1_3: true
-rhel8cis_rule_4_2_1_4: true
-rhel8cis_rule_4_2_1_5: true
-rhel8cis_rule_4_2_1_6: true
-rhel8cis_rule_4_2_2_1: true
-rhel8cis_rule_4_2_2_2: true
-rhel8cis_rule_4_2_2_3: true
-rhel8cis_rule_4_3: true
+rhel8cis_rule_4_1_1_1: true  # Ensure auditd is installed
+rhel8cis_rule_4_1_1_2: true  # Ensure auditd service is enabled
+rhel8cis_rule_4_1_1_3: true  # Ensure auditing for processes that start prior to auditd is enabled
+rhel8cis_rule_4_1_2_1: true  # Ensure audit log storage size is configured
+rhel8cis_rule_4_1_2_2: true  # Ensure audit logs are not automatically deleted
+rhel8cis_rule_4_1_2_3: true  # Ensure system is disabled when audit logs are full
+rhel8cis_rule_4_1_3: true    # Ensure changes to system administration scope (sudoers) is collected
+rhel8cis_rule_4_1_4: true    # Ensure changes to system administration scope (sudoers) is collected
+rhel8cis_rule_4_1_5: true    # Ensure changes to system administration scope (sudoers) is collected
+rhel8cis_rule_4_1_6: true    # Ensure events that modify date and time information are collected
+rhel8cis_rule_4_1_7: true    # Ensure events that modify the system's Mandatory Access Controls are collected
+rhel8cis_rule_4_1_8: true    # Ensure events that modify the system's network environment are collected
+rhel8cis_rule_4_1_9: true    # Ensure discretionary access control permission modification events are collected
+rhel8cis_rule_4_1_10: true   # Ensure unsuccessful unauthorized file access attempts are collected
+rhel8cis_rule_4_1_11: true   # Ensure events that modify user/group information are collected
+rhel8cis_rule_4_1_12: true   # Ensure successful file system mounts are collected
+rhel8cis_rule_4_1_13: true   # Ensure use of privileged commands is collected TODO
+rhel8cis_rule_4_1_14: true   # Ensure file deletion events by users are collected
+rhel8cis_rule_4_1_15: true   # Ensure kernel module loading and unloading is collected
+rhel8cis_rule_4_1_16: true   # Ensure system administrator actions (sudolog) are collected
+rhel8cis_rule_4_1_17: true   # Ensure the audit configuration is immutable
+rhel8cis_rule_4_2_1_1: true  # Ensure rsyslog is installed
+rhel8cis_rule_4_2_1_2: true  # Ensure rsyslog Service is enabled
+rhel8cis_rule_4_2_1_3: true  # Ensure rsyslog default file permissions configured
+rhel8cis_rule_4_2_1_4: true  # Ensure logging is configured TODO
+rhel8cis_rule_4_2_1_5: true  # Ensure rsyslog is configured to send logs to a remote log host
+rhel8cis_rule_4_2_1_6: true  # Ensure remote rsyslog messages are only accepted on designated log hosts TODO
+rhel8cis_rule_4_2_2_1: true  # Ensure journald is configured to send logs to rsyslog
+rhel8cis_rule_4_2_2_2: true  # Ensure journald is configured to compress large log files
+rhel8cis_rule_4_2_2_3: true  # Ensure journald is configured to write logfiles to persistent disk
+rhel8cis_rule_4_2_3: true    # Ensure permissions on all logfiles are configured
+rhel8cis_rule_4_3: true      # Ensure logrotate is configured
 
 # Section 5 rules
-rhel8cis_rule_5_1_1: true
-rhel8cis_rule_5_1_2: true
-rhel8cis_rule_5_1_3: true
-rhel8cis_rule_5_1_4: true
-rhel8cis_rule_5_1_5: true
-rhel8cis_rule_5_1_6: true
-rhel8cis_rule_5_1_7: true
-rhel8cis_rule_5_1_8: true
-rhel8cis_rule_5_2_1: true
-rhel8cis_rule_5_2_2: true
-rhel8cis_rule_5_2_3: true
-rhel8cis_rule_5_2_4: true
-rhel8cis_rule_5_2_5: true
-rhel8cis_rule_5_2_6: true
-rhel8cis_rule_5_2_7: true
-rhel8cis_rule_5_2_8: true
-rhel8cis_rule_5_2_9: true
-rhel8cis_rule_5_2_10: true
-rhel8cis_rule_5_2_11: true
-rhel8cis_rule_5_2_12: true
-rhel8cis_rule_5_2_13: true
-rhel8cis_rule_5_2_14: true
-rhel8cis_rule_5_2_15: true
-rhel8cis_rule_5_2_16: true
-rhel8cis_rule_5_2_17: true
-rhel8cis_rule_5_2_18: true
-rhel8cis_rule_5_2_19: true
-rhel8cis_rule_5_2_20: true
-rhel8cis_rule_5_3_1: true
-rhel8cis_rule_5_3_2: true
-rhel8cis_rule_5_3_3: true
-rhel8cis_rule_5_4_1: true
-rhel8cis_rule_5_4_2: true
-rhel8cis_rule_5_4_3: true
-rhel8cis_rule_5_4_4: true
-rhel8cis_rule_5_5_1_1: true
-rhel8cis_rule_5_5_1_2: true
-rhel8cis_rule_5_5_1_3: true
-rhel8cis_rule_5_5_1_4: true
-rhel8cis_rule_5_5_1_5: true
-rhel8cis_rule_5_5_2: true
-rhel8cis_rule_5_5_3: true
-rhel8cis_rule_5_5_4: true
-rhel8cis_rule_5_5_5: true
-rhel8cis_rule_5_6: true
-rhel8cis_rule_5_7: true
+rhel8cis_rule_5_1_1: true    # Ensure cron daemon is enabled
+rhel8cis_rule_5_1_2: true    # Ensure permissions on /etc/crontab are configured
+rhel8cis_rule_5_1_3: true    # Ensure permissions on /etc/cron.hourly are configured
+rhel8cis_rule_5_1_4: true    # Ensure permissions on /etc/cron.daily are configured
+rhel8cis_rule_5_1_5: true    # Ensure permissions on /etc/cron.weekly are configured
+rhel8cis_rule_5_1_6: true    # Ensure permissions on /etc/cron.monthly are configured
+rhel8cis_rule_5_1_7: true    # Ensure permissions on /etc/cron.d are configured
+rhel8cis_rule_5_1_8: true    # Ensure at/cron is restricted to authorized users
+rhel8cis_rule_5_2_1: true    # Ensure permissions on /etc/ssh/sshd_config are configured
+rhel8cis_rule_5_2_2: true    # Ensure SSH access is limited
+rhel8cis_rule_5_2_3: true    # Ensure permissions on SSH private host key files are configured
+rhel8cis_rule_5_2_4: true    # Ensure permissions on SSH public host key files are configured
+rhel8cis_rule_5_2_5: true    # Ensure SSH LogLevel is appropriate
+rhel8cis_rule_5_2_6: true    # Ensure SSH X11 forwarding is disabled
+rhel8cis_rule_5_2_7: true    # Ensure SSH MaxAuthTries is set to 4 or less
+rhel8cis_rule_5_2_8: true    # Ensure SSH IgnoreRhosts is enabled
+rhel8cis_rule_5_2_9: true    # Ensure SSH HostbasedAuthentication is disabled
+rhel8cis_rule_5_2_10: true   # Ensure SSH root login is disabled
+rhel8cis_rule_5_2_11: true   # Ensure SSH PermitEmptyPasswords is disable
+rhel8cis_rule_5_2_12: true   # Ensure SSH PermitUserEnvironment is disabled
+rhel8cis_rule_5_2_13: true   # Ensure SSH Idle Timeout Interval is configured
+rhel8cis_rule_5_2_14: true   # Ensure SSH LoginGraceTime is set to one minute or les
+rhel8cis_rule_5_2_15: true   # Ensure SSH warning banner is configured
+rhel8cis_rule_5_2_16: true   # Ensure SSH PAM is enabled
+rhel8cis_rule_5_2_17: true   # Ensure SSH AllowTcpForwarding is disabled
+rhel8cis_rule_5_2_18: true   # Ensure SSH MaxStartups is configured
+rhel8cis_rule_5_2_19: true   # Ensure SSH MaxSessions is set to 4 or less
+rhel8cis_rule_5_2_20: true   # Ensure system-wide crypto policy is not over-ridden TODO
+rhel8cis_rule_5_3_1: true    # Create custom authselect profile TODO
+rhel8cis_rule_5_3_2: true    # Select authselect profile TODO
+rhel8cis_rule_5_3_3: true    # Ensure authselect includes with-faillock TODO
+rhel8cis_rule_5_4_1: true    # Ensure password creation requirements are configured
+rhel8cis_rule_5_4_2: true    # Ensure lockout for failed password attempts is configured
+rhel8cis_rule_5_4_3: true    # Ensure password reuse is limited
+rhel8cis_rule_5_4_4: true    # Ensure password hashing algorithm is SHA-512
+rhel8cis_rule_5_5_1_1: true  # Ensure password expiration is 365 days or less
+rhel8cis_rule_5_5_1_2: true  # Ensure minimum days between password changes is 0 or more
+rhel8cis_rule_5_5_1_3: true  # Ensure password expiration warning days is 14 or more
+rhel8cis_rule_5_5_1_4: true  # Ensure inactive password lock is 90 days or less
+rhel8cis_rule_5_5_1_5: true  # Ensure all users last password change date is in the past
+rhel8cis_rule_5_5_2: true    # Ensure system accounts are secured
+rhel8cis_rule_5_5_3: true    # Ensure default user shell timeout is 900 seconds or less
+rhel8cis_rule_5_5_4: true    # Ensure default group for the root account is GID 0
+rhel8cis_rule_5_5_5: true    # Ensure default user umask is 027 or more restrictive
+rhel8cis_rule_5_6: true      # Ensure root login is restricted to system console
+rhel8cis_rule_5_7: true      # Ensure access to the su command is restricted - wheel group contains root
 
 # Section 6 rules
-rhel8cis_rule_6_1_1: true
-rhel8cis_rule_6_1_2: true
-rhel8cis_rule_6_1_3: true
-rhel8cis_rule_6_1_4: true
-rhel8cis_rule_6_1_5: true
-rhel8cis_rule_6_1_6: true
-rhel8cis_rule_6_1_7: true
-rhel8cis_rule_6_1_8: true
-rhel8cis_rule_6_1_9: true
-rhel8cis_rule_6_1_10: true
-rhel8cis_rule_6_1_11: true
-rhel8cis_rule_6_1_12: true
-rhel8cis_rule_6_1_13: true
-rhel8cis_rule_6_1_14: true
-rhel8cis_rule_6_2_1: true
-rhel8cis_rule_6_2_2: true
-rhel8cis_rule_6_2_3: true
-rhel8cis_rule_6_2_4: true
-rhel8cis_rule_6_2_5: true
-rhel8cis_rule_6_2_6: true
-rhel8cis_rule_6_2_7: true
-rhel8cis_rule_6_2_8: true
-rhel8cis_rule_6_2_9: true
-rhel8cis_rule_6_2_10: true
-rhel8cis_rule_6_2_11: true
-rhel8cis_rule_6_2_12: true
-rhel8cis_rule_6_2_14: true
-rhel8cis_rule_6_2_15: true
-rhel8cis_rule_6_2_16: true
-rhel8cis_rule_6_2_17: true
-rhel8cis_rule_6_2_18: true
-rhel8cis_rule_6_2_19: true
-rhel8cis_rule_6_2_20: true
+rhel8cis_rule_6_1_1: true    # Audit system file permissions TODO
+rhel8cis_rule_6_1_2: true    # Ensure permissions on /etc/passwd are configured
+rhel8cis_rule_6_1_3: true    # Ensure permissions on /etc/shadow are configured
+rhel8cis_rule_6_1_4: true    # Ensure permissions on /etc/group are configured
+rhel8cis_rule_6_1_5: true    # Ensure permissions on /etc/gshadow are configured
+rhel8cis_rule_6_1_6: true    # Ensure permissions on /etc/passwd- are configured
+rhel8cis_rule_6_1_7: true    # Ensure permissions on /etc/shadow- are configured
+rhel8cis_rule_6_1_8: true    # Ensure permissions on /etc/group- are configured
+rhel8cis_rule_6_1_9: true    # Ensure permissions on /etc/gshadow- are configured
+rhel8cis_rule_6_1_10: true   # Ensure no world writable files exist
+rhel8cis_rule_6_1_11: true   # Ensure no unowned files or directories exist
+rhel8cis_rule_6_1_12: true   # Ensure no ungrouped files or directories exist
+rhel8cis_rule_6_1_13: true   # Audit SUID executables
+rhel8cis_rule_6_1_14: true   # Audit SGID executables
+rhel8cis_rule_6_2_1: true    # Ensure password fields are not empty
+rhel8cis_rule_6_2_2: true    # Ensure no legacy '+' entries exist in /etc/passwd
+rhel8cis_rule_6_2_3: true    # Ensure root PATH Integrity
+rhel8cis_rule_6_2_4: true    # Ensure no legacy '+' entries exist in /etc/shadow
+rhel8cis_rule_6_2_5: true    # Ensure no legacy '+' entries exist in /etc/group
+rhel8cis_rule_6_2_6: true    # Ensure root is the only UID 0 account
+rhel8cis_rule_6_2_7: true    # Ensure users' home directories permissions are 750 or more restrictive
+rhel8cis_rule_6_2_8: true    # Ensure users own their home directories
+rhel8cis_rule_6_2_9: true    # Ensure users' dot files are not group or world writable
+rhel8cis_rule_6_2_10: true   # Ensure no users have .forward files
+rhel8cis_rule_6_2_11: true   # Ensure no users have .netrc files
+rhel8cis_rule_6_2_12: true   # Ensure users' .netrc Files are not group or world accessible
+rhel8cis_rule_6_2_13: true   # Ensure no users have .rhosts files
+rhel8cis_rule_6_2_14: true   # Ensure all groups in /etc/passwd exist in /etc/group
+rhel8cis_rule_6_2_15: true   # Ensure no duplicate UIDs exist
+rhel8cis_rule_6_2_16: true   # Ensure no duplicate GIDs exist
+rhel8cis_rule_6_2_17: true   # Ensure no duplicate user names exist
+rhel8cis_rule_6_2_18: true   # Ensure no duplicate group names exist
+rhel8cis_rule_6_2_19: true   # Ensure shadow group is empt
+rhel8cis_rule_6_2_20: true   # Ensure all users' home directories exist
 
 # Service configuration booleans set true to keep service
 rhel8cis_avahi_server: false

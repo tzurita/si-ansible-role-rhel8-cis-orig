@@ -8,6 +8,7 @@
   tags:
     - level1
     - rule_5.1.1
+    - rhel8_section5
 
 - name: "SCORED | 5.1.2 | Ensure permissions on /etc/crontab are configured"
   file:
@@ -20,6 +21,8 @@
   tags:
     - level1
     - rule_5.1.2
+    - rhel8_section5
+
 
 - name: "SCORED | 5.1.3 | Ensure permissions on /etc/cron.hourly are configured"
   file:
@@ -33,6 +36,8 @@
   tags:
     - level1
     - rule_5.1.3
+    - rhel8_section5
+
 
 - name: "SCORED | 5.1.4 | Ensure permissions on /etc/cron.daily are configured"
   file:
@@ -46,6 +51,8 @@
   tags:
     - level1
     - rule_5.1.4
+    - rhel8_section5
+
 
 - name: "SCORED | 5.1.5 | Ensure permissions on /etc/cron.weekly are configured"
   file:
@@ -59,6 +66,8 @@
   tags:
     - level1
     - rule_5.1.5
+    - rhel8_section5
+
 
 - name: "SCORED | 5.1.6 | Ensure permissions on /etc/cron.monthly are configured"
   file:
@@ -72,6 +81,8 @@
   tags:
     - level1
     - rule_5.1.6
+    - rhel8_section5
+
 
 - name: "SCORED | 5.1.7 | Ensure permissions on /etc/cron.d are configured"
   file:
@@ -85,6 +96,8 @@
   tags:
     - level1
     - rule_5.1.7
+    - rhel8_section5
+
 
 - name: "SCORED | 5.1.8 | Ensure at/cron is restricted to authorized users"
   block:
@@ -124,10 +137,11 @@
         group: root
         mode: 0600
   when:
-      - rhel8cis_rule_5_1_8
+    - rhel8cis_rule_5_1_8
   tags:
-      - level1
-      - rule_5.1.8
+    - level1
+    - rule_5.1.8
+    - rhel8_section5
 
 - name: "SCORED | 5.2.1 | Ensure permissions on /etc/ssh/sshd_config are configured"
   file:
@@ -141,6 +155,8 @@
   tags:
     - level1
     - rule_5.2.1
+    - rhel8_section5
+
 
 - name: "SCORED | 5.2.2 | Ensure SSH Access is limited"
   block:
@@ -188,52 +204,55 @@
       when:
         - "rhel8cis_sshd['denygroups']|default('') != ''"
   when:
-      - rhel8cis_rule_5_2_2
+    - rhel8cis_rule_5_2_2
   tags:
-      - level1
-      - rule_5.2.2
+    - level1
+    - rule_5.2.2
+    - rhel8_section5
 
 - name: "SCORED | 5.2.3 | Ensure permissions on SSH private host key files are configured "
   block:
-      - name: "Find Private SSH Hostkeys"
-        command: find /etc/ssh -xdev -type f -name 'ssh_host_*_key'
-        register: privhostkey
+    - name: "Find Private SSH Hostkeys"
+      command: find /etc/ssh -xdev -type f -name 'ssh_host_*_key'
+      register: privhostkey
 
-      - name: "Set Permissions on Private SSH Hostkeys"
-        file:
-          dest: "{{ item }}"
-          owner: root
-          group: root
-          mode: 0600
-        when:
-          - rhel8cis_rule_5_2_3
-        with_items:
-          - "{{ privhostkey.files }}"
-        tags:
-          - level1
-          - rule_5.2.3
+    - name: "Set Permissions on Private SSH Hostkeys"
+      file:
+        dest: "{{ item }}"
+        owner: root
+        group: root
+        mode: 0600
+      with_items:
+        - "{{ privhostkey.stdout_lines }}"
+  when:
+    - rhel8cis_rule_5_2_3
+  tags:
+    - level1
+    - rule_5.2.3
+    - rhel8_section5
 
-- name: "SCORED | 5.2.4 | Ensure permissions on SSH private host key files are configured "
+- name: "SCORED | 5.2.4 | Ensure permissions on SSH public host key files are configured "
   block:
-      - name: "Find Public SSH Hostkeys"
-        command: find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub'
-        register: pubhostkey
+    - name: "Find Public SSH Hostkeys"
+      command: find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub'
+      register: pubhostkey
 
-      - name: "Set Permissions on Public SSH Hostkeys"
-        file:
-          dest: "{{ item }}"
-          owner: root
-          group: root
-          mode: 0644
-        when:
-          - rhel8cis_rule_5_2_4
-        with_items:
-        - "{{ pubhostkey.files }}"
-        tags:
-          - level1
-          - rule_5.2.4
+    - name: "Set Permissions on Public SSH Hostkeys"
+      file:
+        dest: "{{ item }}"
+        owner: root
+        group: root
+        mode: 0644
+      when:
+        - rhel8cis_rule_5_2_4
+      with_items:
+      - "{{ pubhostkey.stdout_lines }}"
+  tags:
+    - level1
+    - rule_5.2.4
+    - rhel8_section5
 
-- name: "SCORED | 5.2.5 | Ensure SSH LogLevel is set to INFO"
+- name: "SCORED | 5.2.5 | Ensure SSH LogLevel is appropriate"
   lineinfile:
     state: present
     dest: /etc/ssh/sshd_config
@@ -245,6 +264,7 @@
     - level1
     - level2
     - rule_5.2.5
+    - rhel8_section5
 
 - name: "SCORED | 5.2.6 | Ensure SSH X11 forwarding is disabled"
   lineinfile:
@@ -258,6 +278,7 @@
     - level1
     - level2
     - rule_5.2.6
+    - rhel8_section5
 
 - name: "SCORED | 5.2.7 | Ensure SSH MaxAuthTries is set to 4 or less"
   lineinfile:
@@ -270,6 +291,7 @@
   tags:
     - level1
     - rule_5.2.7
+    - rhel8_section5
 
 - name: "SCORED | 5.2.8 | Ensure SSH IgnoreRhosts is enabled"
   lineinfile:
@@ -283,6 +305,7 @@
     - level1
     - level2
     - rule_5.2.8
+    - rhel8_section5
 
 - name: "SCORED | 5.2.9 | Ensure SSH HostbasedAuthentication is disabled"
   lineinfile:
@@ -295,6 +318,7 @@
   tags:
     - level1
     - rule_5.2.9
+    - rhel8_section5
 
 - name: "SCORED | 5.2.10 | Ensure SSH root login is disabled"
   lineinfile:
@@ -307,6 +331,7 @@
   tags:
     - level1
     - rule_5.2.10
+    - rhel8_section5
 
 - name: "SCORED | 5.2.11 | Ensure SSH PermitEmptyPasswords is disabled"
   lineinfile:
@@ -319,6 +344,7 @@
   tags:
     - level1
     - rule_5.2.11
+    - rhel8_section5
 
 - name: "SCORED | 5.2.12 | Ensure SSH PermitUserEnvironment is disabled"
   lineinfile:
@@ -331,6 +357,7 @@
   tags:
     - level1
     - rule_5.2.12
+    - rhel8_section5
 
 - name: "SCORED | 5.2.13 | Ensure SSH Idle Timeout Interval is configured"
   block:
@@ -348,10 +375,11 @@
         regexp: '^ClientAliveCountMax'
         line: "ClientAliveCountMax {{ rhel8cis_sshd['clientalivecountmax'] }}"
   when:
-      - rhel8cis_rule_5_2_13
+    - rhel8cis_rule_5_2_13
   tags:
-      - level1
-      - rule_5.2.13
+    - level1
+    - rule_5.2.13
+    - rhel8_section5
 
 - name: "SCORED | 5.2.14 | Ensure SSH LoginGraceTime is set to one minute or less"
   lineinfile:
@@ -364,6 +392,7 @@
   tags:
     - level1
     - rule_5.2.14
+    - rhel8_section5
 
 - name: "SCORED | 5.2.15 | Ensure SSH warning banner is configured"
   lineinfile:
@@ -376,6 +405,7 @@
   tags:
     - level1
     - rule_5.2.15
+    - rhel8_section5
 
 - name: "SCORED | 5.2.16 | Ensure SSH PAM is enabled"
   lineinfile:
@@ -388,6 +418,7 @@
   tags:
     - level1
     - rule_5.2.16
+    - rhel8_section5
 
 - name: "SCORED | 5.2.17 | Ensure SSH AllowTcpForwarding is disabled"
   lineinfile:
@@ -400,6 +431,7 @@
   tags:
     - level2
     - rule_5.2.17
+    - rhel8_section5
 
 - name: "SCORED | 5.2.18 | Ensure SSH MaxStartups is configured"
   lineinfile:
@@ -412,6 +444,7 @@
   tags:
     - level2
     - rule_5.2.18
+    - rhel8_section5
 
 - name: "SCORED | 5.2.19 | Ensure SSH MaxSessions is set to 4 or less"
   lineinfile:
@@ -424,6 +457,7 @@
   tags:
     - level2
     - rule_5.2.19
+    - rhel8_section5
 
 - name: "SCORED | 5.2.20 | Ensure system-wide crypto policy is not over-ridden"
   command: /bin/true
@@ -434,6 +468,7 @@
   tags:
     - level1
     - rule_5.2.20
+    - rhel8_section5
 
 - name: "SCORED | 5.3.1 | Create custom authselect profile"
   command: /bin/true
@@ -444,6 +479,7 @@
   tags:
     - level1
     - rule_5.3.1
+    - rhel8_section5
 
 - name: "SCORED | 5.3.2 | Select authselect profile"
   command: /bin/true
@@ -454,6 +490,7 @@
   tags:
     - level1
     - rule_5.3.2
+    - rhel8_section5
 
 - name: "SCORED | 5.3.3 | Ensure authselect includes with-faillock"
   command: /bin/true
@@ -464,6 +501,7 @@
   tags:
     - level1
     - rule_5.3.3
+    - rhel8_section5
 
 - name: "SCORED | 5.4.1 | Ensure password creation requirements are configured"
   lineinfile:
@@ -482,6 +520,7 @@
   tags:
     - level1
     - rule_5.4.1
+    - rhel8_section5
 
 - name: "SCORED | 5.4.2 | Ensure lockout for failed password attempts is configured" # SI Baseline Change
   copy:
@@ -490,20 +529,22 @@
     backup: yes
   changed_when: no
   tags:
-      - level1
-      - rule_5.4
-      - rule_5.4.2
+    - level1
+    - rule_5.4
+    - rule_5.4.2
+    - rhel8_section5
 
 - name: "SCORED | 5.4.3 | Ensure password reuse is limited" # SI Baseline Change
   copy:
-    src="etc/pam.d/password-auth"
-    dest="/etc/pam.d/password-auth-ac"
-    backup=yes
+    src: "etc/pam.d/password-auth"
+    dest: "/etc/pam.d/password-auth-ac"
+    backup: yes
   changed_when: no
   tags:
-      - level1
-      - rule_5.4
-      - rule_5.4.3
+    - level1
+    - rule_5.4
+    - rule_5.4.3
+    - rhel8_section5
 
 - name: "SCORED | 5.4.4 | Ensure password hashing algorithm is SHA-512"
   copy:
@@ -516,6 +557,7 @@
   tags:
     - level1
     - rule_5.4.4
+    - rhel8_section5
 
 - name: "SCORED | 5.5.1.1 | Ensure password expiration is 90 days or less"
   block:
@@ -534,10 +576,11 @@
       command: "chage --maxdays 90 {{ item }}"
       with_items: "{{ users_exp_output.stdout_lines }}"
   when:
-      - rhel8cis_rule_5_5_1_1
+    - rhel8cis_rule_5_5_1_1
   tags:
-      - level1
-      - rule_5.5.1.1
+    - level1
+    - rule_5.5.1.1
+    - rhel8_section5
 
 - name: "SCORED | 5.5.1.2 | Ensure minimum days between password changes is 0 or more" # SI Baseline Change
   block:
@@ -549,31 +592,33 @@
       command: "chage --mindays 0 {{ item }}"
       with_items: "{{ users_min_output.stdout_lines }}"
   tags:
-      - level1
-      - rule_5.5.1
-      - rule_5.5.1.2
+    - level1
+    - rule_5.5.1
+    - rule_5.5.1.2
+    - rhel8_section5
 
-- name: "scored | 5.5.1.3 | ensure password expiration warning days is 14 or more"
+- name: "scored | 5.5.1.3 | Ensure password expiration warning days is 14 or more"
   block:
-    - name: "scored | 5.5.1.3 | ensure password expiration warning days is 14 or more"
+    - name: "scored | 5.5.1.3 | Ensure password expiration warning days is 14 or more"
       lineinfile:
         state: present
         dest: /etc/login.defs
-        regexp: '^pass_warn_age'
-        line: "pass_warn_age {{ rhel8cis_pass['warn_age'] }}"
+        regexp: '^PASS_WARN_AGE'
+        line: "PASS_WARN_AGE {{ rhel8cis_pass['warn_age'] }}"
 
-    - name: "scored | 5.5.1.3 | ensure password expiration warning days is 14 or more" # si baseline change
-      command: "awk -f: '{if($6 != 14) print $1}' /etc/shadow"
+    - name: "scored | 5.5.1.3 | Ensure password expiration warning days is 14 or more" # si baseline change
+      command: "awk -F: '{if($6 != 14) print $1}' /etc/shadow"
       register: users_warn_output
 
-    - name: "scored | 5.5.1.3 | ensure password expiration warning days is 14 or more" # si baseline change
+    - name: "scored | 5.5.1.3 | Ensure password expiration warning days is 14 or more" # si baseline change
       command: "chage --warndays 14 {{ item }}"
       with_items: "{{ users_warn_output.stdout_lines  }}"
   when:
-      - rhel8cis_rule_5_5_1_3
+    - rhel8cis_rule_5_5_1_3
   tags:
-      - level1
-      - rule_5.5.1.3
+    - level1
+    - rule_5.5.1.3
+    - rhel8_section5
 
 - name: "SCORED | 5.5.1.4 | Ensure inactive password lock is 90 days or less"
   block:
@@ -597,6 +642,7 @@
     - level1
     - rule_5.5.1
     - rule_5.5.1.4
+    - rhel8_section5
 
 - name: "SCORED | 5.5.1.5 | Ensure all users last password change date is in the past"
   command: /bin/true
@@ -606,6 +652,7 @@
   tags:
     - level1
     - rhel8cis_rule_5_5_1_5
+    - rhel8_section5
     - notimplemented
 
 - name: "SCORED | 5.5.2 | Ensure system accounts are secured"
@@ -616,32 +663,60 @@
   tags:
     - level1
     - rule_5.5.2
+    - rhel8_section5
     - notimplemented
+
+      #- name: "SCORED | 5.5.3 | Ensure default user shell timeout is 900 seconds or less" # SI Baseline Change
+      #  block:
+      #    - name: "SCORED | 5.5.3 | Ensure default user shell timeout is 900 seconds or less"
+      #      replace:
+      #          path: /etc/bashrc
+      #          regexp: '(^\s+TMOUT)(.*)'
+      #          replace: '\1=900'
+      #
+      #    - name: "SCORED | 5.5.3 | Ensure default user shell timeout is 900 seconds or less" # SI Baseline Change
+      #      replace:
+      #          path: /etc/profile
+      #          regexp: '(^\s+TMOUT)(.*)'
+      #          replace: '\1=900'
+      #
+      #    - name: "SCORED | 5.5.3 | Ensure default user shell timeout is 900 seconds or less" # SI Baseline Change
+      #      replace:
+      #          path: /etc/csh.cshrc
+      #          regexp: '(^\s+TMOUT)(.*)'
+      #          replace: '\1=900'
+      #  when:
+      #    - rhel8cis_rule_5_5_4
+      #  tags:
+      #    - level1
+      #    - rule_5.5.4
+      #    - rhel8_section5
 
 - name: "SCORED | 5.5.3 | Ensure default user shell timeout is 900 seconds or less" # SI Baseline Change
   block:
     - name: "SCORED | 5.5.3 | Ensure default user shell timeout is 900 seconds or less"
-      replace:
+      lineinfile:
           path: /etc/bashrc
-          regexp: '(^\s+TMOUT)(.*)'
-          replace: '\1=900'
+          state: present
+          line: TMOUT=100
 
     - name: "SCORED | 5.5.3 | Ensure default user shell timeout is 900 seconds or less" # SI Baseline Change
-      replace:
+      lineinfile:
           path: /etc/profile
-          regexp: '(^\s+TMOUT)(.*)'
-          replace: '\1=900'
+          state: present
+          line: TMOUT=100
 
     - name: "SCORED | 5.5.3 | Ensure default user shell timeout is 900 seconds or less" # SI Baseline Change
-      replace:
+      lineinfile:
           path: /etc/csh.cshrc
-          regexp: '(^\s+TMOUT)(.*)'
-          replace: '\1=900'
+          state: present
+          line: TMOUT=100
   when:
     - rhel8cis_rule_5_5_4
   tags:
     - level1
     - rule_5.5.4
+    - rhel8_section5
 
 - name: "SCORED | 5.5.4 | Ensure default group for the root account is GID 0"
   command: /bin/true
@@ -651,6 +726,7 @@
   tags:
     - level1
     - rule_5.5.4
+    - rhel8_section5
     - notimplemented
 
 - name: "SCORED | 5.5.5 | Ensure default user umask is 027 or more restrictive" # SI Baseline Change
@@ -677,6 +753,7 @@
   tags:
     - level1
     - rule_5.5.5
+    - rhel8_section5
 
 - name: "NOTSCORED | 5.6 | Ensure root login is restricted to system console"
   command: /bin/true
@@ -684,6 +761,7 @@
   tags:
     - level1
     - rule_5.6
+    - rhel8_section5
     - notimplemented
 
 - name: "SCORED | 5.7 | Ensure access to the su command is restricted"
@@ -702,3 +780,4 @@
   tags:
     - level1
     - rule_5.7
+    - rhel8_section5

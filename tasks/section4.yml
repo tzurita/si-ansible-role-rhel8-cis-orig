@@ -2,7 +2,6 @@
   dnf:
     name: "{{ item }}"
     state: present
-    name: "{{ item }}"
   with_items:
     - "audit"
     - "audit-libs"
@@ -12,6 +11,7 @@
     - level1
     - level2
     - rule_4.1.1.1
+    - rhel8_section4
 
 - name: "SCORED | 4.1.1.2 | Ensure auditd service is enabled"
   systemd:
@@ -19,12 +19,12 @@
     state: started
     enabled: yes
   when:
-    - rhel8cis_skip_for_travis == false
     - rhel8cis_rule_4_1_1_2
   tags:
     - level2
     - auditd
     - rule_4.1.1.2
+    - rhel8_section4
 
 - name: "SCORED | 4.1.1.3 | Ensure auditing for processes that start prior to auditd is enabled"
   replace:
@@ -40,6 +40,7 @@
     - level2
     - auditd
     - rule_4.1.1.3
+    - rhel8_section4
 
 - name: "SCORED | 4.1.1.4 | Ensure auditing for processes that start prior to auditd is enabled"
   replace:
@@ -55,6 +56,7 @@
     - level2
     - auditd
     - rule_4.1.1.3
+    - rhel8_section4
 
 - name: "NOTSCORED | 4.1.2.1 | Ensure audit log storage size is configured"
   lineinfile:
@@ -69,6 +71,7 @@
     - level2
     - auditd
     - rule_4.1.2.1
+    - rhel8_section4
 
 - name: "SCORED | 4.1.2.2 | Ensure audit logs are not automatically deleted"
   lineinfile:
@@ -83,34 +86,32 @@
     - level2
     - auditd
     - rule_4.1.2.2
+    - rhel8_section4
 
 - name: "SCORED | 4.1.2.3 | Ensure system is disabled when audit logs are full"
-  lineinfile:
-    dest: /etc/audit/auditd.conf
-    regexp: "^admin_space_left_action"
-    line: "admin_space_left_action = {{ rhel8cis_auditd['admin_space_left_action'] }}"
-    state: present
-  when:
-    - rhel8cis_rule_4_1_2_3
-  notify: restart auditd
-  tags:
-    - level2
-    - auditd
-    - rule_4.1.2.3
+  block:
+    - name: "SCORED | 4.1.2.3 | Ensure system is disabled when audit logs are full"
+      lineinfile:
+        dest: /etc/audit/auditd.conf
+        regexp: "^admin_space_left_action"
+        line: "admin_space_left_action = {{ rhel8cis_auditd['admin_space_left_action'] }}"
+        state: present
+      notify: restart auditd
 
-- name: "SCORED | 4.1.2.3 | Ensure email on non-admin audit space alert"
-  lineinfile:
-    dest: /etc/audit/auditd.conf
-    regexp: "^space_left_action"
-    line: "space_left_action = email"
-    state: present
+    - name: "SCORED | 4.1.2.3 | Ensure email on non-admin audit space alert"
+      lineinfile:
+        dest: /etc/audit/auditd.conf
+        regexp: "^space_left_action"
+        line: "space_left_action = email"
+        state: present
+      notify: restart auditd
   when:
     - rhel8cis_rule_4_1_2_3
-  notify: restart auditd
   tags:
     - level2
     - auditd
     - rule_4.1.2.3
+    - rhel8_section4
 
 - name: "SCORED | 4.1.3 | Ensure changes to system administration scope (sudoers) is collected"
   template:
@@ -126,6 +127,7 @@
     - level2
     - auditd
     - rule_4.1.3
+    - rhel8_section4
 
 - name: "SCORED | 4.1.4 | Ensure login and logout events are collected"
   template:
@@ -141,6 +143,7 @@
     - level2
     - auditd
     - rule_4.1.8
+    - rhel8_section4
 
 - name: "SCORED | 4.1.5 | Ensure session initiation information is collected"
   template:
@@ -156,6 +159,7 @@
     - level2
     - auditd
     - rule_4.1.5
+    - rhel8_section4
 
 - name: "SCORED | 4.1.6 | Ensure events that modify date and time information are collected"
   template:
@@ -171,6 +175,7 @@
     - level2
     - auditd
     - rule_4.1.6
+    - rhel8_section4
 
 - name: "SCORED | 4.1.7 | Ensure events that modify the system's Mandatory Access Controls are collected"
   template:
@@ -186,6 +191,7 @@
     - level2
     - auditd
     - rule_4.1.7
+    - rhel8_section4
 
 - name: "SCORED | 4.1.8 | Ensure events that modify the system's network environment are collected"
   template:
@@ -201,6 +207,7 @@
     - level2
     - auditd
     - rule_4.1.8
+    - rhel8_section4
 
 - name: "SCORED | 4.1.9 | Ensure discretionary access control permission modification events are collected"
   template:
@@ -216,6 +223,7 @@
     - level2
     - auditd
     - rule_4.1.9
+    - rhel8_section4
 
 - name: "SCORED | 4.1.10 | Ensure unsuccessful unauthorized file access attempts are collected"
   template:
@@ -231,6 +239,7 @@
     - level2
     - auditd
     - rule_4.1.10
+    - rhel8_section4
 
 - name: "SCORED | 4.1.11 | Ensure events that modify user/group information are collected"
   template:
@@ -246,6 +255,7 @@
     - level2
     - auditd
     - rule_4.1.11
+    - rhel8_section4
 
 - name: "SCORED | 4.1.12 | Ensure successful file system mounts are collected"
   template:
@@ -261,6 +271,7 @@
     - level2
     - auditd
     - rule_4.1.12
+    - rhel8_section4
 
 - name: "SCORED | 4.1.13 | Ensure use of privileged commands is collected"
   shell: for i in  $(df | grep '^/dev' | awk '{ print $NF }'); do find $i -xdev -type f -perm -4000 -o -type f -perm -2000 2>/dev/null; done
@@ -273,6 +284,7 @@
     - level2
     - auditd
     - rule_4.1.13
+    - rhel8_section4
 
 - name: "SCORED | 4.1.13 | Ensure use of privileged commands is collected"
   template:
@@ -288,6 +300,7 @@
     - level2
     - auditd
     - rule_4.1.13
+    - rhel8_section4
 
 - name: "SCORED | 4.1.14 | Ensure file deletion events by users are collected"
   template:
@@ -303,6 +316,7 @@
     - level2
     - auditd
     - rule_4.1.14
+    - rhel8_section4
 
 - name: "SCORED | 4.1.15 | Ensure kernel module loading and unloading is collected"
   template:
@@ -318,6 +332,7 @@
     - level2
     - auditd
     - rule_4.1.15
+    - rhel8_section4
 
 - name: "SCORED | 4.1.16 | Ensure system administrator actions (sudolog) are collected"
   template:
@@ -333,6 +348,7 @@
     - level2
     - auditd
     - rule_4.1.16
+    - rhel8_section4
 
 - name: "SCORED | 4.1.17 | Ensure the audit configuration is immutable"
   template:
@@ -348,8 +364,10 @@
     - level2
     - auditd
     - rule_4.1.17
+    - rhel8_section4
 
-- name: "SCORED | 4.2.1.1 | Ensure rsyslog or syslog-ng is installed"
+
+- name: "SCORED | 4.2.1.1 | Ensure rsyslog is installed"
   dnf:
     name: "{{ rhel8cis_syslog }}"
     state: present
@@ -359,6 +377,7 @@
     - level1
     - level2
     - rule_4.2.1.1
+    - rhel8_section4
 
 - name: "SCORED | 4.2.1.2 | Ensure rsyslog Service is enabled"
   systemd:
@@ -371,6 +390,7 @@
     - level1
     - level2
     - rule_4.2.1.2
+    - rhel8_section4
     - notimplemented
 
 - name: "SCORED | 4.2.1.3 | Ensure rsyslog default file permissions configured"
@@ -384,6 +404,7 @@
     - level1
     - level2
     - rule_4.2.1.3
+    - rhel8_section4
 
 - name: "NOTSCORED | 4.2.1.4 | Ensure logging is configured"
   command: /bin/true
@@ -394,6 +415,7 @@
     - level1
     - level2
     - rule_4.2.1.4
+    - rhel8_section4
     - notimplemented
 
 - name: "SCORED | 4.2.1.5 | Ensure rsyslog is configured to send logs to a remote log host"
@@ -407,8 +429,9 @@
     - level1
     - level2
     - rule_4.2.1.5
+    - rhel8_section4
 
-- name: "NOTSCORED | 4.2.1.6 | Ensure remote rsyslog messages are only accepted on designated log hosts."
+- name: "NOTSCORED | 4.2.1.6 | Ensure remote rsyslog messages are only accepted on designated log hosts"
   command: /bin/true
   changed_when: no
   when:
@@ -417,6 +440,7 @@
     - level1
     - level2
     - rule_4.2.1.6
+    - rhel8_section4
     - notimplemented
 
 - name: "SCORED | 4.2.2.1 | Ensure journald is configured to send logs to rsyslog"
@@ -430,6 +454,7 @@
   tags:
     - level1
     - rule_4.2.2.1
+    - rhel8_section4
 
 - name: "SCORED | 4.2.2.2 | Ensure journald is configured to compress large log files"
   lineinfile:
@@ -442,48 +467,50 @@
   tags:
     - level1
     - rule_4.2.2.2
+    - rhel8_section4
 
-- name: "SCORED | 4.2.2.3 | Ensure journald is configured to compress large log files"
+- name: "SCORED | 4.2.2.3 | Ensure journald is configured to write logfiles to persistent disk"
   lineinfile:
     dest: /etc/systemd/journald.conf
     regexp: "^Storage"
-    line: "Compress=yes"
+    line: "Storage=persistent"
     state: present
   when:
     - rhel8cis_rule_4_2_2_3
   tags:
     - level1
     - rule_4.2.2.3
+    - rhel8_section4
 
-- name: "SCORED | 4.2.4 | Ensure permissions on all logfiles are configured"
+- name: "SCORED | 4.2.3 | Ensure permissions on all logfiles are configured"
   command: find /var/log -type f -exec chmod g-wx,o-rwx {} +
   changed_when: no
   failed_when: no
   when:
-    - rhel8cis_rule_4_2_4
+    - rhel8cis_rule_4_2_3
   tags:
     - level1
     - level2
-    - rule_4.2.4
+    - rule_4.2.3
+    - rhel8_section4
 
 - name: "NOTSCORED | 4.3 | Ensure logrotate is configured"
-  find:
-    paths: /etc/logrotate.d/
-  register: log_rotates
+  block:
+    - name: "NOTSCORED | 4.3 | Ensure logrotate is configured"
+      find:
+        paths: /etc/logrotate.d/
+      register: log_rotates
+
+    - name: "NOTSCORED | 4.3 | Ensure logrotate is configured"
+      replace:
+        path: "{{ item.path }}"
+        regexp: '^(\s*)(daily|weekly|monthly|yearly)$'
+        replace: "\\1{{ rhel8cis_logrotate }}"
+      with_items:
+        - "{{ log_rotates.files }}"
+        - { path: "/etc/logrotate.conf" }
   tags:
     - level1
     - level2
     - rule_4.3
-
-- name: "NOTSCORED | 4.3 | Ensure logrotate is configured"
-  replace:
-    path: "{{ item.path }}"
-    regexp: '^(\s*)(daily|weekly|monthly|yearly)$'
-    replace: "\\1{{ rhel8cis_logrotate }}"
-  with_items:
-    - "{{ log_rotates.files }}"
-    - { path: "/etc/logrotate.conf" }
-  tags:
-    - level1
-    - level2
-    - rule_4.3
+    - rhel8_section4

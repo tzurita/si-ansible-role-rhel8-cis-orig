@@ -270,14 +270,14 @@
     - level1
     - rule_6.2.11
 
-# - name: "SCORED | 6.2.12 | Ensure users' .netrc Files are not group or world accessible"
-#   file:
-#       mode: 0600
-#       dest: "~{{ item }}/.netrc"
-#   with_items: "{{ users.stdout_lines }}"
-#   tags:
-#       - level1
-#       - rule_6.2.12
+      #- name: "SCORED | 6.2.12 | Ensure users' .netrc Files are not group or world accessible"
+      #  file:
+      #    mode: 0600
+      #    dest: "~{{ item }}/.netrc"
+      #  with_items: "{{ users.stdout_lines }}"
+      #  tags:
+      #    - level1
+      #    - rule_6.2.12
 
 - name: "SCORED | 6.2.13 | Ensure no users have .rhosts files"
   file:
