@@ -1,10 +1,14 @@
 - name: "SCORED | 3.1.1 | Ensure IP forwarding is disabled"
   sysctl:
-    name: net.ipv4.ip_forward
-    value: 0
+    name: '{{ item.name }}'
+    value: '{{ item.value }}'
+    sysctl_set: yes
     state: present
     reload: yes
     ignoreerrors: yes
+  with_items:
+    - { name: net.ipv4.ip_forward, value: 0 }
+    - { name: net.ipv6.ip_forward, value: 0 }
   notify:
     - sysctl flush ipv4 route table
   when:
@@ -48,12 +52,8 @@
     ignoreerrors: yes
   with_items:
     - { name: net.ipv4.conf.all.accept_source_route, value: 0 }
-    - { name: net.ipv4.conf.all.accept_source_route, value: 0 }
-    - { name: net.ipv4.conf.default.accept_source_route, value: 0 }
     - { name: net.ipv4.conf.default.accept_source_route, value: 0 }
     - { name: net.ipv6.conf.all.accept_source_route, value: 0 }
-    - { name: net.ipv6.conf.all.accept_source_route, value: 0 }
-    - { name: net.ipv6.conf.default.accept_source_route, value: 0 }
     - { name: net.ipv6.conf.default.accept_source_route, value: 0 }
   notify:
     - sysctl flush ipv4 route table
