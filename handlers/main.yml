@@ -8,6 +8,7 @@
       value: 1
       sysctl_set: yes
   when: ansible_virtualization_type != "docker"
+  ignore_errors: True
 
 - name: sysctl flush ipv6 route table
   become: yes
@@ -16,6 +17,7 @@
       value: 1
       sysctl_set: yes
   when: ansible_virtualization_type != "docker"
+  ignore_errors: True
 
 - name: systemd restart tmp.mount
   become: yes
