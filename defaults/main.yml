@@ -173,7 +173,7 @@ rhel8cis_rule_4_2_1_1: true  # Ensure rsyslog is installed
 rhel8cis_rule_4_2_1_2: true  # Ensure rsyslog Service is enabled
 rhel8cis_rule_4_2_1_3: true  # Ensure rsyslog default file permissions configured
 rhel8cis_rule_4_2_1_4: true  # Ensure logging is configured TODO
-rhel8cis_rule_4_2_1_5: true  # Ensure rsyslog is configured to send logs to a remote log host
+rhel8cis_rule_4_2_1_5: false # Ensure rsyslog is configured to send logs to a remote log host
 rhel8cis_rule_4_2_1_6: true  # Ensure remote rsyslog messages are only accepted on designated log hosts TODO
 rhel8cis_rule_4_2_2_1: true  # Ensure journald is configured to send logs to rsyslog
 rhel8cis_rule_4_2_2_2: true  # Ensure journald is configured to compress large log files
