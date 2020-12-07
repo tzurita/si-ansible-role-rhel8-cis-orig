@@ -333,7 +333,7 @@ rhel8cis_selinux_pol: targeted
 rhel8cis_gui: no
 
 # Set to 'true' if X Windows is needed in your environment
-rhel8cis_xwindows_required: no
+rhel8cis_xwindows_required: true
 
 rhel8cis_openldap_clients_required: false
 rhel8cis_telnet_required: false
