@@ -523,11 +523,20 @@
     - rhel8_section5
 
 - name: "SCORED | 5.4.2 | Ensure lockout for failed password attempts is configured" # SI Baseline Change
-  copy:
-    src: "etc/pam.d/system-auth"
-    dest: "/etc/pam.d/system-auth-ac"
-    backup: yes
-  changed_when: no
+  block:
+    - name: Copy system-auth template
+      copy:
+        src: "etc/pam.d/system-auth"
+        dest: "/etc/pam.d/system-auth-ac"
+        backup: yes
+      changed_when: no
+    - name: Create system-auth symlink
+      ansible.builtin.file:
+        src: "/etc/pam.d/system-auth-ac"
+        dest: "/etc/pam.d/system-auth" 
+        owner: root
+        group: root
+        state: link
   tags:
     - level1
     - rule_5.4
@@ -535,11 +544,20 @@
     - rhel8_section5
 
 - name: "SCORED | 5.4.3 | Ensure password reuse is limited" # SI Baseline Change
-  copy:
-    src: "etc/pam.d/password-auth"
-    dest: "/etc/pam.d/password-auth-ac"
-    backup: yes
-  changed_when: no
+  block:
+    - name: Copy password-auth template
+      copy:
+        src: "etc/pam.d/password-auth"
+        dest: "/etc/pam.d/password-auth-ac"
+        backup: yes
+      changed_when: no
+    - name: Create password-auth symlink
+      ansible.builtin.file:
+        src: "/etc/pam.d/password-auth-ac"
+        dest: "/etc/pam.d/password-auth" 
+        owner: root
+        group: root
+        state: link
   tags:
     - level1
     - rule_5.4
