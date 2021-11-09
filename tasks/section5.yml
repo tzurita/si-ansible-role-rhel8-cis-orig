@@ -534,6 +534,7 @@
       ansible.builtin.file:
         src: "/etc/pam.d/system-auth-ac"
         dest: "/etc/pam.d/system-auth" 
+        force: yes
         owner: root
         group: root
         state: link
@@ -553,6 +554,7 @@
       changed_when: no
     - name: Create password-auth symlink
       ansible.builtin.file:
+        force: yes
         src: "/etc/pam.d/password-auth-ac"
         dest: "/etc/pam.d/password-auth" 
         owner: root
