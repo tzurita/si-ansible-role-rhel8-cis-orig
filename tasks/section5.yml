@@ -541,6 +541,7 @@
   tags:
     - level1
     - rule_5.4
+    - rule_5.4.1
     - rule_5.4.2
     - rhel8_section5
 
@@ -563,6 +564,7 @@
   tags:
     - level1
     - rule_5.4
+    - rule_5.4.1
     - rule_5.4.3
     - rhel8_section5
 
