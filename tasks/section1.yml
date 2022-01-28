@@ -470,7 +470,7 @@
 - name: "SCORED | 1.4.2 | Ensure filesystem integrity is regularly checked"
   cron:
     name: run aide integrity check weekly
-    cron_file: "{{ rhel8cis_aide_cron['cron_file'] }}"
+  #  cron_file: "{{ rhel8cis_aide_cron['cron_file'] }}"
     user: "{{ rhel8cis_aide_cron['cron_user'] }}"
     minute: "{{ rhel8cis_aide_cron['aide_minute'] | default('0') }}"
     hour: "{{ rhel8cis_aide_cron['aide_hour'] | default('5') }}"
