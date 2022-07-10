@@ -514,14 +514,15 @@
 
 
 - name: "SCORED | 1.5.2 | Ensure bootloader password is set" # modified for si baseline
-  expect:
-    command: grub2-setpassword
-    responses:
-      (?i)password: "{{ rhel8cis_bootloader_password }}"
+  copy:
+    dest: /boot/efi/EFI/redhat/user.cfg
+    content: "GRUB2_PASSWORD={{ rhel8cis_bootloader_password_hash }}"
+    owner: root
+    group: root
+    mode: 0600
   notify: generate new grub config
   when:
-    #    - rhel8cis_set_boot_pass and grub_pass is defined and grub_pass.passhash is defined and grub_pass.passhash != ''
-    - rhel8cis_rule_1_5_2
+      - rhel8cis_rule_1_5_2
   tags:
     - level1
     - scored
