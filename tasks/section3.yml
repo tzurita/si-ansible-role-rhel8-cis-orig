@@ -8,7 +8,7 @@
     ignoreerrors: yes
   with_items:
     - { name: net.ipv4.ip_forward, value: 0 }
-    - { name: net.ipv4.conf.all.forward, value: 0 }
+    - { name: net.ipv4.conf.all.forwarding, value: 0 }
     - { name: net.ipv6.conf.all.forwarding, value: 0 }
   notify:
     - sysctl flush ipv4 route table
